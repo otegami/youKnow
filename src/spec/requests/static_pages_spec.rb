@@ -14,7 +14,7 @@ RSpec.describe "Static Pages", type: :request do
         it "shows /static_pages/home" do
             get static_pages_home_path
             expect(response).to have_http_status(200)
-            assert_select "title", "Home | #{@base_title}"
+            assert_select "title", "#{@base_title}"
         end 
     end
     describe "GET /static_pages/help" do
