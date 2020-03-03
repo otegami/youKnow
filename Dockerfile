@@ -12,6 +12,6 @@ WORKDIR /youKnow
 COPY src/Gemfile /youKnow/Gemfile
 COPY src/Gemfile.lock /youKnow/Gemfile.lock
 # Gemのインストール実行
-RUN bundle install
+RUN bundle install --without production
 # ローカルのsrcをコピー
 COPY src /youKnow
