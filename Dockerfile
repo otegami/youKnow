@@ -3,7 +3,8 @@
 # イメージのベースラインにRuby2.5.1を指定
 FROM ruby:2.5.1
 # Railsに必要なパッケージをインストール
-RUN apt-get update -qq && apt-get install -y build-essential nodejs imagemagick
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+    && apt-get install -y nodejs build-essential imagemagick
 # ルートディレクトリを作成
 RUN mkdir /youKnow
 # 作業ディレクトリを指定
