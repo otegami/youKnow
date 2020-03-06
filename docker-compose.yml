@@ -23,6 +23,13 @@ services:
     # pryを使用してデバッグができるよう設定
     tty: true
     stdin_open: true
+    # Use chrome for system spec
+    environment: 
+      - "SELENIUM_DRIVER_URL=http://selenium_chrome:4444/wd/hub"
+  selenium_chrome:
+    image: selenium/standalone-chrome-debug
+    # logging:
+    # driver: none    
   # MySQLコンテナ定義
   db:
     # mysqlを使用してコンテナ作成

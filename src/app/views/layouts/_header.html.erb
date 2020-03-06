@@ -1,0 +1,15 @@
+<header>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<%= link_to "youKnow", '#', id: "logo", class: "navbar-brand" %>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+			<div class="navbar-nav">
+				<li class = "nav-item nav-link active" ><%= link_to "Home", root_path %></li>
+				<li class = "nav-item nav-link" ><%= link_to "Help", help_path %></li>
+				<li class = "nav-item nav-link disabled" ><%= link_to "Log in", "#" %></li>
+			</div>
+		</div>
+	</nav>  
+</header>
