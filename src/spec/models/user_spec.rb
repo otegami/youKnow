@@ -43,7 +43,7 @@ RSpec.describe User, type: :model do
       duplicate_user = @user.dup
       duplicate_user.email = @user.email.upcase
       @user.save!
-      expect(@user.invalid?).to eq (true)
-    end  
+      expect(duplicate_user.invalid?).to eq (true)
+    end
   end
 end
