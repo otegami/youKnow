@@ -45,5 +45,11 @@ RSpec.describe User, type: :model do
       @user.save!
       expect(duplicate_user.invalid?).to eq (true)
     end
+    it "make email be lowercase before saving to database" do
+      mixed_case_email = "Foo@ExAMPLe.CoM"
+      @user.email = mixed_case_email
+      @user.save!
+      expect(@user.reload.email).to eq (mixed_case_email.downcase)
+    end
   end
 end
