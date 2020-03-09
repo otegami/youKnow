@@ -45,11 +45,25 @@ RSpec.describe User, type: :model do
       @user.save!
       expect(duplicate_user.invalid?).to eq (true)
     end
-    it "make email be lowercase before saving to database" do
+    it "should make email be lowercase before saving to database" do
       mixed_case_email = "Foo@ExAMPLe.CoM"
       @user.email = mixed_case_email
       @user.save!
       expect(@user.reload.email).to eq (mixed_case_email.downcase)
     end
+    it "should check the existence of password" do
+      @user.password = @user.password_confirmation = "" * 6
+      expect(@user).to be_invalid
+    end
+    context "Checking the length of password" do
+      it "should check whether the length is under 5" do
+        @user.password = @user.password_confirmation = "a" * 5
+        expect(@user).to be_invalid
+      end
+      it "should check whether the length is over 6" do
+        @user.password = @user.password_confirmation = "a" * 6
+        expect(@user).to be_valid
+      end
+    end  
   end
 end
