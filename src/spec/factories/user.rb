@@ -5,4 +5,11 @@ FactoryBot.define do
 		sequence(:password) { |n| "password#{n}" }
 		sequence(:password_confirmation) { |n| "password#{n}" }
 	end
+	
+	factory :invalidUser, class: User do
+		name { " " }
+		email { "user@invalid" }
+		password { "foo" }
+		password_confirmation { "bar" }
+	end	
 end
