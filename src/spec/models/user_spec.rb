@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
   before do
     @user = FactoryBot.build(:user)
   end
+
   describe "Validation" do
     it "should check the existence" do
       expect(@user.valid?).to eq (true)
@@ -66,4 +67,10 @@ RSpec.describe User, type: :model do
       end
     end  
   end
+
+  describe "Authenticated?" do
+    it "should return false for a user with nil digest" do
+      expect(@user.authenticated?('')).to be_falsey
+    end  
+  end  
 end
