@@ -12,7 +12,7 @@ RSpec.describe "Sign up", type: :system do
         fill_in "Confirmation", with: ""
         click_button "Create my account"
         
-        expect(page).to have_text("The form contains 6 errors")
+        expect(page).to have_text("The form contains 4 errors")
       end
     end
 
