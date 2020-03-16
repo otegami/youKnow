@@ -38,5 +38,14 @@ RSpec.describe "Users", type: :request do
         }.to change{ User.count }.by(1)
       end
     end  
-  end  
+  end
+
+  describe "GET /user/params[:user_id]/edit" do
+    let!(:user){ FactoryBot.create(:user)}
+
+    it "returns http success" do
+      get edit_user_path(user)
+      expect(response).to have_http_status(302)
+    end
+  end
 end
