@@ -29,12 +29,14 @@ RSpec.describe "Log in", type: :system do
         expect(page).to have_link 'Log in', href: login_path, count: 0
         expect(page).to have_link 'Log out', href: logout_path
         expect(page).to have_link 'Profile', href: user_path(user)
+        expect(page).to have_link 'Users', href: users_path
 
         click_link "Log out"
 
         expect(page).to have_link 'Log in', href: login_path
         expect(page).to have_link 'Log out', href: logout_path, count: 0
         expect(page).to have_link 'Profile', href: user_path(user), count: 0
+        expect(page).not_to have_link 'Users', href: users_path
       end
     end  
   end  

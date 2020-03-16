@@ -48,4 +48,11 @@ RSpec.describe "Users", type: :request do
       expect(response).to have_http_status(302)
     end
   end
+
+  describe "GET /users" do
+    it "should return http success" do
+      get users_path
+      expect(response).to have_http_status(302)
+    end  
+  end  
 end
