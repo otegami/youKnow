@@ -40,7 +40,7 @@ RSpec.describe "Users", type: :request do
     end  
   end
 
-  describe "GET /user/params[:user_id]/edit" do
+  describe "GET /users/params[:user_id]/edit" do
     let!(:user){ FactoryBot.create(:user)}
 
     it "returns http success" do
@@ -53,6 +53,71 @@ RSpec.describe "Users", type: :request do
     it "should return http success" do
       get users_path
       expect(response).to have_http_status(302)
+    end  
+  end
+
+  describe "Patch /users/params[:user_id]" do
+    let!(:other_user) { FactoryBot.create(:user) }
+    it "shouldn't update the admin attribute by user" do
+      post login_path, params: { 
+        session: {
+          email: other_user.email,
+          password: other_user.password,
+          remember_me: '0'
+        }
+      }
+      patch user_path(other_user), params: {
+        user: {
+          password: 'beChanged',
+          password: 'beChanged',
+          admin: 'true'
+        }
+      }
+      expect(other_user.admin?).to be_falsey
+    end  
+  end
+  
+  describe "Delete /users/params[:id]" do
+    let!(:user){ FactoryBot.create(:user)}
+    let!(:other_user){ FactoryBot.create(:user)}
+    let!(:admin){ FactoryBot.create(:adminUser) }
+  
+    context "without user's logging in" do
+      it "shouldn't change anything" do
+        expect{
+          delete user_path(other_user)
+        }.to change{ User.count }.by(0)
+      end  
+    end
+
+    context "with user's logging in" do
+      it "shouldn't change anything" do
+        post login_path, params: { 
+          session: {
+            email: user.email,
+            password: user.password,
+            remember_me: '0'
+          }
+        }
+        expect{
+          delete user_path(other_user)
+        }.to change{ User.count }.by(0)
+      end
+    end
+
+    context "with admin user's logging in" do
+      it "should delete user infromation in database" do
+        post login_path, params: { 
+          session: {
+            email: admin.email,
+            password: admin.password,
+            remember_me: '0'
+          }
+        }
+        expect{
+          delete user_path(other_user)
+        }.to change{ User.count }.by(-1)
+      end   
     end  
   end  
 end
