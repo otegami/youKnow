@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe "Index of Users", type: :system do
   
   let!(:user) { FactoryBot.create(:user) }
+  let!(:admin) { FactoryBot.create(:adminUser) }
   let!(:users) { FactoryBot.create_list(:user, 40) }
 
   describe "User accessing the index page of users" do
@@ -14,7 +15,6 @@ RSpec.describe "Index of Users", type: :system do
     end
 
     context "with logging in" do
-
       before do
         visit login_path
         fill_in "Email", with: user.email
@@ -34,5 +34,23 @@ RSpec.describe "Index of Users", type: :system do
         end
       end  
     end   
+
+    context "with logging in as admin" do
+      before do
+        visit login_path
+        fill_in "Email", with: admin.email
+        fill_in "Password", with: admin.password
+        click_button "Log in"
+      end
+
+      it "should return index pages with delete link" do
+        visit users_path
+        User.order(:name).page(1).each do |user|
+          unless user == admin
+            expect(page).to have_link 'delete', href: user_path(user)
+          end  
+        end
+      end
+    end  
   end  
 end  
