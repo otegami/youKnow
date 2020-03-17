@@ -40,7 +40,7 @@ RSpec.describe "Users", type: :request do
     end  
   end
 
-  describe "GET /user/params[:user_id]/edit" do
+  describe "GET /users/params[:user_id]/edit" do
     let!(:user){ FactoryBot.create(:user)}
 
     it "returns http success" do
@@ -53,6 +53,27 @@ RSpec.describe "Users", type: :request do
     it "should return http success" do
       get users_path
       expect(response).to have_http_status(302)
+    end  
+  end
+
+  describe "Patch /users/params[:user_id]" do
+    let!(:other_user) { FactoryBot.create(:user) }
+    it "shouldn't update the admin attribute by user" do
+      post login_path, params: { 
+        session: {
+          email: other_user.email,
+          password: other_user.password,
+          remember_me: '0'
+        }
+      }
+      patch user_path(other_user), params: {
+        user: {
+          password: 'beChanged',
+          password: 'beChanged',
+          admin: 'true'
+        }
+      }
+      expect(other_user.admin?).to be_falsey
     end  
   end  
 end
