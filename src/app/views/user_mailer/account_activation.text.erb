@@ -1,0 +1,10 @@
+Hi <%= @user.name %>
+
+Welcome to youKnow! Click on the link below to activate your account:
+
+<%= 
+  edit_account_acctivation_url(
+    @user.acctivation_token, 
+    email: @user.email
+  ) 
+%>

@@ -12,7 +12,7 @@ RSpec.describe "Static Pages", type: :request do
 	end        
 	describe "Get /home" do
 		it "returns http success" do
-			get home_path
+			get root_url
 			expect(response).to have_http_status(:success)
 			assert_select "title", "#{@base_title}"
 		end 
