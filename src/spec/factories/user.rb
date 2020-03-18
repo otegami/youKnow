@@ -17,6 +17,14 @@ FactoryBot.define do
 		activated_at { Time.zone.now }
 	end
 
+	factory :deactivatedUser, class: User do
+		name { "deactivatedUser" }
+		email { "deactivated@gmail.com" }
+		password { "deactivated" }
+		password_confirmation { "deactivated" }
+		activated { false }
+	end
+
 	factory :adminUser, class: User do
 		name { "admin" }
 		email { "admin@gmail.com" }

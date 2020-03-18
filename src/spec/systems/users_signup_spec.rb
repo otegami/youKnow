@@ -17,7 +17,7 @@ RSpec.describe "Sign up", type: :system do
     end
 
     context "with using valid infromation" do
-      it "should show the user's profile page" do
+      it "should show home page with valid message" do
         visit signup_path
 
         fill_in "Name", with: "Takuya"
@@ -26,10 +26,7 @@ RSpec.describe "Sign up", type: :system do
         fill_in "Confirmation", with: "rails1026"
         click_button "Create my account"
         
-        expect(page).to have_text("Welcome to youKnow")
-        expect(page).to have_link 'Log in', href: login_path, count: 0
-        expect(page).to have_link 'Log out', href: logout_path
-        expect(page).to have_link 'Profile', href: user_path(User.last)
+        expect(page).to have_text("Please check your email to activate your account")
       end
     end    
   end  

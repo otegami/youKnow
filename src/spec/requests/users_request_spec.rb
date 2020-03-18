@@ -69,7 +69,7 @@ RSpec.describe "Users", type: :request do
       patch user_path(other_user), params: {
         user: {
           password: 'beChanged',
-          password: 'beChanged',
+          password_confirmation: 'beChanged',
           admin: 'true'
         }
       }
