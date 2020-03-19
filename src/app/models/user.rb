@@ -32,6 +32,17 @@ class User < ApplicationRecord
 		BCrypt::Password.new(digest).is_password?(token)
 	end
 
+	# Activate user account
+	def activate
+		update_columns(activated: true, activated_at: Time.zone.now)
+	end	
+
+	# Send activattion email toward user
+	def send_activation_email
+		UserMailer.account_activation(self).deliver_now
+	end	
+
+
 	# Delete the cookies about user
 	def forget
 		update_attribute(:remember_digest, nil)

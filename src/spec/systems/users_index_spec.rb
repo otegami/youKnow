@@ -46,7 +46,7 @@ RSpec.describe "Index of Users", type: :system do
       it "should return index pages with delete link" do
         visit users_path
         User.order(:name).page(1).each do |user|
-          unless user == admin
+          unless user == admin || user.activated
             expect(page).to have_link 'delete', href: user_path(user)
           end  
         end
