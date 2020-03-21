@@ -5,7 +5,7 @@ FactoryBot.define do
 		sequence(:password) { |n| "password#{n}" }
 		sequence(:password_confirmation) { |n| "password#{n}" }
 		activated { true }
-		activated_at { Time.zone.now }
+		activated_at { Time.zone.now }		
 	end
 	
 	factory :invalidUser, class: User do
