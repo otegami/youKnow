@@ -5,4 +5,8 @@ FactoryBot.define do
     status { true }
     association :owner, factory: :user
   end
+
+  factory :past10min, class: Project do
+    
+  end  
 end
