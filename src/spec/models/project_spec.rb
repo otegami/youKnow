@@ -2,7 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Project, type: :model do
   # pending "add some examples to (or delete) #{__FILE__}"
+
   let!(:project){ FactoryBot.create(:project) }
+  let!(:before10mins){ FactoryBot.create(:project, :before10mins) }
+  let!(:before3years){ FactoryBot.create(:project, :before3years) }
+  let!(:before2hours){ FactoryBot.create(:project, :before2hours) }
+  
+
   describe "Validations" do
     it "should be valid" do
       expect(project).to be_valid
@@ -35,6 +41,13 @@ RSpec.describe Project, type: :model do
         project.name = "a" * 151
         expect(project).to be_invalid
       end
+    end  
+  end
+
+  describe "About order" do
+    it "should be most recent first" do
+      most_recent = FactoryBot.create(:project, :tomorrow)
+      expect(most_recent).to eq(Project.first)
     end  
   end
 end

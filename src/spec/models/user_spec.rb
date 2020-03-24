@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+
   before do
     @user = FactoryBot.build(:user)
   end
@@ -72,5 +73,14 @@ RSpec.describe User, type: :model do
     it "should return false for a user with nil digest" do
       expect(@user.authenticated?(:remember, '')).to be_falsey
     end  
+  end
+
+  describe "with Project model" do
+    it "associated project should be deleted" do
+      user = FactoryBot.create(:user)
+      user.projects.create( name: "test project", description: "test" )
+      expect{ user.destroy }.to change{ Project.count }.by(-1)
+    end  
   end  
 end
+e
