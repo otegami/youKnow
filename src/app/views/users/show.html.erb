@@ -2,4 +2,24 @@
 <h1>
   <%= gravatar_for @user %>
   <%= @user.name %>
-</h1
+</h1>
+<div class="container">
+  <div class="row">
+    <% if @user.projects.any? %>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render @projects %>
+        </tbody>
+      </table>
+      <%= paginate @projects %>
+    <% end %>  
+  </div>
+</div>

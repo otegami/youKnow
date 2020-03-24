@@ -9,6 +9,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @projects = @user.projects.where(status: true).page params[:page]
     redirect_to root_path and return unless @user.activated
   end
 
