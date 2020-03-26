@@ -58,6 +58,7 @@ RSpec.describe "Editting user", type: :system do
     end 
 
     it "should return log in page" do
+      skip
       visit edit_user_path(user)
       expect(page).to have_text("Welcome to youKnow")
     end

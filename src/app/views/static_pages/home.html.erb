@@ -1,7 +1,31 @@
-<div>
+<% if logged_in? %>
+  <% provide(:title, 'Projects') %>
+  <% if @projects.nil? %>
+    <p>
+      Please create new project or join in other projects!!
+    </p>
+  <% else %>
+    <h1>All Projects</h1>
+      <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% render @projects %>
+      </tbody>
+      </table>
+  <% end %>
+<% else %>
+  <div>
     <h1>Welcome to youKnow</h1>
     <p>
-        This is the home page for youKnow : My portfolio.
+      This is the home page for youKnow : My portfolio.
     </p>
     <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
-</div>
+  </div>
+<% end %>

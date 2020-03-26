@@ -55,16 +55,7 @@ class UsersController < ApplicationController
         :password_confirmation
       )
     end 
-  
-   # check whether the user has logged in or not
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "Please log in"
-        redirect_to login_path
-      end 
-    end
-
+    
     # check whether the user corresponds with current_user or not
     def correct_user
       @user = User.find(params[:id])
