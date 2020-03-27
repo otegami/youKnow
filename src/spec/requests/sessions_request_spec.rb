@@ -23,14 +23,9 @@ RSpec.describe "Sessions", type: :request do
       end  
     end
     context "when the user's data is valid" do 
-      it "return http success" do 
-        post login_path, params: { 
-          session: {
-            email: user.email,
-            password: user.password,
-            remember_me: '0'
-          }
-        }
+      it "return http success" do
+        get login_path
+        post login_path, params: { session: {email: user.email, password: user.password}}
         expect(response).to have_http_status(302)
       end
     end  

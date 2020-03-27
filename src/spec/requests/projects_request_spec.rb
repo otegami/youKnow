@@ -6,8 +6,9 @@ RSpec.describe "Projects", type: :request do
   
   describe "Get /projects/new" do
     it "should return http success" do
+      post login_path, params: { session: {email: user.email, password: user.password}}
       get new_project_path
-      expect(response).to have_http_status(302)
+      expect(response).to have_http_status(:success)
     end
   end
   describe "Post /projects" do
@@ -50,6 +51,16 @@ RSpec.describe "Projects", type: :request do
           delete project_path(project)
         }.to change{ project.reload.status }.from(true).to(false)
       end
+    end
+  end
+  describe "Get /projects/params[:id]/edit" do
+    context "when user didn't log in" do
+      it "shouldn't return http success" do
+        get edit_project_path(project)
+        expect(response).to have_http_status(302)
+      end
+    end
+    context "when user logged in" do
     end
   end
 end
