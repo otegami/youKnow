@@ -21,4 +21,11 @@ FactoryBot.define do
       created_at { Time.current.tomorrow }
     end
   end
+
+  factory :invalidProject, class: Project do
+    name { " " }
+    description { " " }
+    status { true }
+    association :owner, factory: :user
+  end
 end
