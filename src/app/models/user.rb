@@ -62,7 +62,12 @@ class User < ApplicationRecord
 	# Check Whether the time of requesting is expired or not
 	def password_reset_expired?
 		reset_sent_at < 2.hours.ago
-	end	
+	end
+
+	# Show that user have all of projects
+	def open_projects
+		Project.where("status=?", true)
+	end
 
 	private
 		# Downcase user email 

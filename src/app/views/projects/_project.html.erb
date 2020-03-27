@@ -8,6 +8,6 @@
   </td>
   <td>
     <% link_to 'Edit', "#" %>
-    | <% link_to 'Close', "#" %>
+    | <%= link_to 'Close', project, class: "btn btn-primary" ,method: :delete, data: { confirm: "You sure?" } %>
   </td>
 </tr>

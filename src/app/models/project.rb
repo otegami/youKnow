@@ -4,4 +4,8 @@ class Project < ApplicationRecord
   validates :user_id, presence: true
   validates :name, presence: true, length: { maximum: 30 }
   validates :description, presence: true, length: { maximum: 150 }
+
+  def closed
+    update_attribute(:status, false)
+  end
 end
