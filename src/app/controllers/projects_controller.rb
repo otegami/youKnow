@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :logged_in_user
-  before_action :correct_user, only: :destroy
+  before_action :correct_user, only: [:edit, :update, :destroy]
   
   def new
     @project = Project.new
@@ -17,11 +17,16 @@ class ProjectsController < ApplicationController
   end
   
   def edit
-
+    @project = Project.find(params[:id])
   end
 
   def update
-
+    if @project.update_attributes(project_params)
+      flash[:success] = 'Project Update'
+      redirect_to root_path
+    else
+      render 'edit'
+    end
   end
 
   def destroy

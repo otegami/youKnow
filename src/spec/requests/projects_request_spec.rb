@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Projects", type: :request do
-  let!(:user){ FactoryBot.create(:user) }
+  let!(:user){ FactoryBot.create(:user_with_projects) }
   let!(:project){ FactoryBot.create(:project) }
   
   describe "Get /projects/new" do
@@ -32,6 +32,62 @@ RSpec.describe "Projects", type: :request do
         expect{
           post projects_path, params: { project: FactoryBot.attributes_for(:project) }
         }.to change{ Project.count }.by(1)
+      end
+    end
+  end
+  describe "GET /projects/params[:project_id]/edit" do
+    context "when user didn't log in" do
+      it "should't return http success" do
+        project = user.projects.first
+        get edit_project_path(project)
+        expect(response).not_to have_http_status(:success)
+      end
+    end
+    context "when user logged in" do
+      before do
+        post login_path, params: { session: {email: user.email, password: user.password}}
+      end
+      it "should't return http success" do
+        project = user.projects.first
+        get edit_project_path(project)
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+  describe "Patch /projects/params[:project_id]" do
+    context "when user didn't log in" do
+      it "shouldn't change project" do
+        project = user.projects.first
+        changedName = 'Changed project name'
+        changedDescription = 'Changed project description'
+        expect {
+          patch project_path(project), params: { project: { name: changedName, description: changedDescription } }
+        }.not_to change{ project.reload.name }.from(project.name)
+      end
+    end
+    context "when user logged in" do
+      before do
+        post login_path, params: { session: {email: user.email, password: user.password}}
+      end
+      context "with invalid information about the project" do
+        it "shouldn't update attributes about project" do
+          project = user.projects.first
+          changedName = ' '
+          changedDescription = ' '
+          expect {
+            patch project_path(project), params: { project: { name: changedName, description: changedDescription } }
+          }.not_to change { project.reload.name }.from(project.name)
+        end
+      end
+      context "with valid information about the project" do
+        it "should update attributes about project" do
+          project = user.projects.first
+          changedName = 'Changed project name'
+          changedDescription = 'Changed project description'
+          expect {
+            patch project_path(project), params: { project: { name: changedName, description: changedDescription } }
+          }.to change { project.reload.name }.from(project.name).to(changedName)
+        end
       end
     end
   end

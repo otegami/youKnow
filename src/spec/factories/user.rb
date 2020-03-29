@@ -16,6 +16,15 @@ FactoryBot.define do
       end
 		end
 	end
+
+	factory :user_without_projects, class: User do
+		name { "user_without_projects" }
+		email { "userwithoutrojects@gmail.com" }
+		sequence(:password) { |n| "password#{n}" }
+		sequence(:password_confirmation) { |n| "password#{n}" }
+		activated { true }
+		activated_at { Time.zone.now }
+	end
 	
 	factory :invalidUser, class: User do
 		name { " " }

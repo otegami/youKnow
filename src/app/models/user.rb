@@ -66,7 +66,7 @@ class User < ApplicationRecord
 
 	# Show that user have all of projects
 	def open_projects
-		Project.where("status=?", true)
+		Project.where("user_id = ? AND status = ?", id, true)
 	end
 
 	private

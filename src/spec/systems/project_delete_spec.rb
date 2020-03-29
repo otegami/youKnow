@@ -20,7 +20,7 @@ RSpec.describe "Delete a project", type: :system do
         click_button "Log in"
 
         project = user.projects.first
-        click_link("#{project.id}")
+        click_link("close#{project.id}")
         page.driver.browser.switch_to.alert.accept
 
         expect(page).not_to have_text(project.name)
