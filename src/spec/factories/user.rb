@@ -5,7 +5,25 @@ FactoryBot.define do
 		sequence(:password) { |n| "password#{n}" }
 		sequence(:password_confirmation) { |n| "password#{n}" }
 		activated { true }
-		activated_at { Time.zone.now }		
+		activated_at { Time.zone.now }
+
+		factory :user_with_projects do
+			transient do
+        projects_count { 20 }
+      end
+      after(:create) do |user, evaluator|
+        create_list(:project, evaluator.projects_count, owner: user)
+      end
+		end
+	end
+
+	factory :user_without_projects, class: User do
+		name { "user_without_projects" }
+		email { "userwithoutrojects@gmail.com" }
+		sequence(:password) { |n| "password#{n}" }
+		sequence(:password_confirmation) { |n| "password#{n}" }
+		activated { true }
+		activated_at { Time.zone.now }
 	end
 	
 	factory :invalidUser, class: User do

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :project do
-    name { "MyString" }
-    description { "MyText" }
+    sequence(:name) { |n| "PROJECT_NAME#{n}" }
+    sequence(:description) { |n| "PROJECT_DESCRIPTION#{n}" }
     status { true }
     association :owner, factory: :user
 
@@ -22,10 +22,10 @@ FactoryBot.define do
     end
   end
 
-  # factory :orderProject, class: Project do
-  #   sequence(:name) { |n| "TEST_NAME#{n}" }
-	# 	sequence(:description) { |n| "TEST#{n} of description" }
-  #   status { true }
-  #   association :owner, factory: :user
-  # end  
+  factory :invalidProject, class: Project do
+    name { " " }
+    description { " " }
+    status { true }
+    association :owner, factory: :user
+  end
 end

@@ -1,14 +1,13 @@
 <tr>
-  <th scope="row">
-  </th>
+  <th scope="row">#</th>
   <td>
-    <%= project.name %>
+    <%= link_to project.name, project_path(project), id: "show_#{project.id}" %>
   </td>
   <td>
     <%= project.description %>
   </td>
   <td>
-    <% link_to 'Edit', "#" %>
-    | <% link_to 'Close', "#" %>
+    <%= link_to 'Edit', edit_project_path(project), class: "btn btn-success", id: "edit_#{project.id}" %>
+    | <%= link_to 'Close', project, class: "btn btn-dark" ,id: "close_#{project.id}", method: :delete, data: { confirm: "You sure?" } %>
   </td>
 </tr>

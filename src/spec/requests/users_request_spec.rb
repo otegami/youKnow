@@ -14,9 +14,10 @@ RSpec.describe "Users", type: :request do
     end  
 
     context "when the data is invalid " do
+      # I have to search for whether this responce should be 302?
       it "should return http success" do
         post users_path, params: { user: FactoryBot.attributes_for(:invalidUser) }
-        expect(response).to have_http_status(:success)
+        expect(response).to have_http_status(200)
       end
 
       it "should not create new user" do
@@ -44,15 +45,19 @@ RSpec.describe "Users", type: :request do
     let!(:user){ FactoryBot.create(:user)}
 
     it "returns http success" do
+      post login_path, params: { session: {email: user.email, password: user.password}}
       get edit_user_path(user)
-      expect(response).to have_http_status(302)
+      expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /users" do
+    let!(:user){ FactoryBot.create(:user)}
+    
     it "should return http success" do
+      post login_path, params: { session: {email: user.email, password: user.password}}
       get users_path
-      expect(response).to have_http_status(302)
+      expect(response).to have_http_status(:success)
     end  
   end
 

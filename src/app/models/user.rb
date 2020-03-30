@@ -1,11 +1,8 @@
 class User < ApplicationRecord
 	attr_accessor :remember_token, :activation_token, :reset_token
-
 	before_create :create_activation_digest
 	before_save :downcase_email
-
 	has_many :projects, dependent: :destroy
-
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 	validates :name, presence: true, length: { maximum: 50 }
 	validates :email, presence: true, length: { maximum: 255 },
@@ -65,7 +62,12 @@ class User < ApplicationRecord
 	# Check Whether the time of requesting is expired or not
 	def password_reset_expired?
 		reset_sent_at < 2.hours.ago
-	end	
+	end
+
+	# Show that user have all of projects
+	def open_projects
+		Project.where("user_id = ? AND status = ?", id, true)
+	end
 
 	private
 		# Downcase user email 

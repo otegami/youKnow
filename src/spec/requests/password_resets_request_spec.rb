@@ -9,6 +9,7 @@ RSpec.describe "PasswordResets", type: :request do
     end
   end
 
+  # I have to search for writing this test
   describe "GET /edit" do
     it "returns http success" do
       get "/password_resets/edit"

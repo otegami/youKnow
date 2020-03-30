@@ -1,7 +1,5 @@
-<div>
-    <h1>Welcome to youKnow</h1>
-    <p>
-        This is the home page for youKnow : My portfolio.
-    </p>
-    <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
-</div>
+<% if logged_in? %>
+  <%= render 'logged_in', projects: @projects %>
+<% else %>
+  <%= render 'not_logged_in' %>
+<% end %>
