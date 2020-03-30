@@ -25,8 +25,8 @@ RSpec.describe "Edit a project", type: :system do
         changedDescription = 'Changed project description'
         project = user.projects.first
         visit edit_project_path(project)
-        expect(page).not_to have_text(project.name)
-        expect(page).not_to have_text(project.description)
+        expect(page).to have_field 'Name', with: project.name
+        expect(page).to have_field 'Description', with: project.description
 
         fill_in "Name", with: changedName
         fill_in "Description", with: changedDescription

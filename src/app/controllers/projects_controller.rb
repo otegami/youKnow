@@ -1,7 +1,11 @@
 class ProjectsController < ApplicationController
   before_action :logged_in_user
-  before_action :correct_user, only: [:edit, :update, :destroy]
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
   
+  def show
+    @project = Project.find(params[:id])
+  end
+
   def new
     @project = Project.new
   end
@@ -17,7 +21,6 @@ class ProjectsController < ApplicationController
   end
   
   def edit
-    @project = Project.find(params[:id])
   end
 
   def update
