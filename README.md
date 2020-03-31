@@ -2,7 +2,11 @@
 
 ## Overview
 / Thank you for sharing this documents. 
+
+
 株式会社万葉の新入社員教育用カリキュラム 
+
+
 https://github.com/everyleaf/el-training
 
 ## Table of Contents
