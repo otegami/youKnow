@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_23_080546) do
+ActiveRecord::Schema.define(version: 2020_03_31_060706) do
+
+  create_table "members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "role"
+    t.bigint "user_id"
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_members_on_project_id"
+    t.index ["user_id", "project_id"], name: "index_members_on_user_id_and_project_id"
+    t.index ["user_id"], name: "index_members_on_user_id"
+  end
 
   create_table "projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -39,5 +50,7 @@ ActiveRecord::Schema.define(version: 2020_03_23_080546) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "members", "projects"
+  add_foreign_key "members", "users"
   add_foreign_key "projects", "users"
 end
