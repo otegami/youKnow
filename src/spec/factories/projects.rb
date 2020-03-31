@@ -20,6 +20,15 @@ FactoryBot.define do
     trait :tomorrow do
       created_at { Time.current.tomorrow }
     end
+
+    factory :project_with_members do
+			transient do
+        members_count { 20 }
+      end
+      after(:create) do |project, evaluator|
+        create_list(:member, evaluator.members_count, project: project)
+      end
+		end
   end
 
   factory :invalidProject, class: Project do
