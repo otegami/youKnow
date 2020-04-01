@@ -42,7 +42,8 @@ class ProjectsController < ApplicationController
     def project_params
       params.require(:project).permit(:name, :description)
     end
-
+    
+    # You have to check whether this user is a member in this project too.
     def correct_user
       @project = current_user.projects.find_by(id: params[:id])
       redirect_to root_url if @project.nil?

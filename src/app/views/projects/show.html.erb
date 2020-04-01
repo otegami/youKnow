@@ -1,6 +1,10 @@
 <% provide(:title, @project.name) %>
 <h1><%= @project.name %></h1>
-
+<div class="container">
+  <div class="row">
+    <%= render 'menu' %>
+  </div>
+</div>
 <div class="container">
   <div class="row">
     <div class="col-10 col-offset-1 text-left">
