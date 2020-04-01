@@ -7,12 +7,13 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @project = Project.new
+    @project = Project.new 
   end
 
   def create
-    @project = current_user.projects.build(project_params)
+    @project = Project.new(project_params)
     if @project.save
+      current_user.be_owner(@project)
       flash[:success] = "Porject created"
       redirect_to root_url
     else
@@ -44,8 +45,8 @@ class ProjectsController < ApplicationController
     end
     
     # You have to check whether this user is a member in this project too.
-    def correct_user
-      @project = current_user.projects.find_by(id: params[:id])
-      redirect_to root_url if @project.nil?
-    end
+    # def correct_user
+    #   @project = current_user.projects.find_by(id: params[:id])
+    #   redirect_to root_url if @project.nil?
+    # end
 end

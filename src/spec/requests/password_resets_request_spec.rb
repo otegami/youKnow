@@ -16,5 +16,4 @@ RSpec.describe "PasswordResets", type: :request do
       expect(response).to have_http_status(302)
     end
   end
-
 end

@@ -2,8 +2,8 @@ class User < ApplicationRecord
 	attr_accessor :remember_token, :activation_token, :reset_token
 	before_create :create_activation_digest
 	before_save :downcase_email
-	has_many :projects, dependent: :destroy
 	has_many :members
+	has_many :projects, through: :members
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 	validates :name, presence: true, length: { maximum: 50 }
 	validates :email, presence: true, length: { maximum: 255 },
@@ -65,10 +65,14 @@ class User < ApplicationRecord
 		reset_sent_at < 2.hours.ago
 	end
 
-	# Show that user have all of projects
-	def open_projects
-		Project.where("user_id = ? AND status = ?", id, true)
+	def be_owner(project)
+		self.members.create(user_id: id, project_id: project.id, owner: true)
 	end
+
+	# Show that user have all of projects
+	# def open_projects
+	# 	Project.where("user_id = ? AND status = ?", id, true)
+	# end
 
 	private
 		# Downcase user email 

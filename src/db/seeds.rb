@@ -22,14 +22,14 @@ User.create!(
   )
 end
 
-users = User.order(:created_at).take(6)
-50.times do |n|
-  name  = "example-#{n+1}"
-  description = "#{n+1}description test"
-  users.each do |user|
-    user.projects.create(
-      name: name,
-      description: description
-    )
-  end  
-end  
+# users = User.order(:created_at).take(6)
+# 50.times do |n|
+#   name = "example-#{n+1}"
+#   description = "#{n+1}description test"
+#   users.each do |user|
+#     user.projects.create(
+#       name: name,
+#       description: description
+#     )
+#   end
+# end
