@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_31_060706) do
+ActiveRecord::Schema.define(version: 2020_04_01_101023) do
 
   create_table "members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "role"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2020_03_31_060706) do
     t.bigint "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "owner", default: false
     t.index ["project_id"], name: "index_members_on_project_id"
     t.index ["user_id", "project_id"], name: "index_members_on_user_id_and_project_id"
     t.index ["user_id"], name: "index_members_on_user_id"
@@ -27,11 +28,9 @@ ActiveRecord::Schema.define(version: 2020_03_31_060706) do
     t.string "name"
     t.text "description"
     t.boolean "status", default: true
-    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "created_at"], name: "index_projects_on_user_id_and_created_at"
-    t.index ["user_id"], name: "index_projects_on_user_id"
+    t.index ["created_at"], name: "index_projects_on_user_id_and_created_at"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -52,5 +51,4 @@ ActiveRecord::Schema.define(version: 2020_03_31_060706) do
 
   add_foreign_key "members", "projects"
   add_foreign_key "members", "users"
-  add_foreign_key "projects", "users"
 end

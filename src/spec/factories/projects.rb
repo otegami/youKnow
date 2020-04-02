@@ -3,7 +3,6 @@ FactoryBot.define do
     sequence(:name) { |n| "PROJECT_NAME#{n}" }
     sequence(:description) { |n| "PROJECT_DESCRIPTION#{n}" }
     status { true }
-    association :owner, factory: :user
 
     trait :before10mins do
       created_at { 10.minutes.ago }
@@ -20,21 +19,20 @@ FactoryBot.define do
     trait :tomorrow do
       created_at { Time.current.tomorrow }
     end
-
-    factory :project_with_members do
-			transient do
-        members_count { 20 }
-      end
-      after(:create) do |project, evaluator|
-        create_list(:member, evaluator.members_count, project: project, user: create(:user))
-      end
-		end
+    # I will have to change this place
+    # factory :project_with_members do
+		# 	transient do
+    #     members_count { 20 }
+    #   end
+    #   after(:create) do |project, evaluator|
+    #     create_list(:member, evaluator.members_count, project: project, user: create(:user))
+    #   end
+		# end
   end
 
   factory :invalidProject, class: Project do
     name { " " }
     description { " " }
     status { true }
-    association :owner, factory: :user
   end
 end
