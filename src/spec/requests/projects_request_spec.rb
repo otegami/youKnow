@@ -2,34 +2,38 @@ require 'rails_helper'
 
 RSpec.describe "Projects", type: :request do
   let!(:user){ FactoryBot.create(:user) }
-#   let!(:other_user){ FactoryBot.create(:user_with_projects) }
+  let!(:other_user){ FactoryBot.create(:user) }
+  let(:owner){ FactoryBot.create(:owner) }
+  let!(:member){ FactoryBot.create(:member) }
+#   let!(:other_user){ FactoryBot.create(:owner) }
 #   let!(:project){ FactoryBot.create(:project) }
   
-  # describe "Get /projects/params[:project_id]" do
-  #   context "when user didn't log in" do
-  #     it "shouldn't return project page" do
-  #       project = user.projects.first
-  #       get project_path(project)
-  #       expect(response).not_to have_http_status(:success)
-  #     end
-  #   end
-  #   context "when user logged in" do
-  #     it "shouldn return project page" do
-  #       post login_path, params: { session: {email: user.email, password: user.password}}
-  #       project = user.projects.first
-  #       get project_path(project)
-  #       expect(response).to have_http_status(:success)
-  #     end
-  #   end
-  #   context "when other user logged in" do
-  #     it "should return project index page" do
-  #       post login_path, params: { session: {email: other_user.email, password: other_user.password}}
-  #       project = user.projects.first
-  #       get project_path(project)
-  #       expect(response).to have_http_status(302)
-  #     end
-  #   end
-  # end
+  describe "Get /projects/params[:project_id]" do
+    context "when user didn't log in" do
+      it "shouldn't return project page" do
+        project = owner.members.first.project
+        get project_path(project)
+        expect(response).not_to have_http_status(:success)
+      end
+    end
+    context "when user logged in" do
+      it "shouldn return project page" do
+        user = owner
+        post login_path, params: { session: {email: user.email, password: user.password}}
+        project = user.members.first.project
+        get project_path(project)
+        expect(response).to have_http_status(:success)
+      end
+    end
+    context "when other user logged in" do
+      it "should return project index page" do
+        post login_path, params: { session: {email: other_user.email, password: other_user.password}}
+        project = owner.members.first.project
+        get project_path(project)
+        expect(response).to have_http_status(302)
+      end
+    end
+  end
   describe "Get /projects/new" do
     context "when user didn't log in" do
       it "should return http success" do
@@ -68,25 +72,27 @@ RSpec.describe "Projects", type: :request do
       end
     end
   end
-#   describe "GET /projects/params[:project_id]/edit" do
-#     context "when user didn't log in" do
-#       it "should't return http success" do
-#         project = user.projects.first
-#         get edit_project_path(project)
-#         expect(response).not_to have_http_status(:success)
-#       end
-#     end
-#     context "when user logged in" do
-#       before do
-#         post login_path, params: { session: {email: user.email, password: user.password}}
-#       end
-#       it "should't return http success" do
-#         project = user.projects.first
-#         get edit_project_path(project)
-#         expect(response).to have_http_status(:success)
-#       end
-#     end
-#   end
+  # Members cannot edit the project they have joined
+  describe "GET /projects/params[:project_id]/edit" do
+    context "when user didn't log in" do
+      it "should't return http success" do
+        project = owner.members.first.project
+        get edit_project_path(project)
+        expect(response).not_to have_http_status(:success)
+      end
+    end
+    context "when user logged in" do
+      before do
+        user = owner
+        post login_path, params: { session: {email: user.email, password: user.password}}
+      end
+      it "should't return http success" do
+        project = project = owner.members.first.project
+        get edit_project_path(project)
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
 #   describe "Patch /projects/params[:project_id]" do
 #     context "when user didn't log in" do
 #       it "shouldn't change project" do
