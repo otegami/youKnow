@@ -4,8 +4,6 @@ RSpec.describe "Editting user", type: :system do
   let!(:user) { FactoryBot.create(:user) }
   let!(:the_other_user) { FactoryBot.create(:user) }
 
-
-
   describe "information by user who loged in " do
     before do
       visit login_path

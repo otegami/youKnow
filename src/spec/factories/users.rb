@@ -7,25 +7,20 @@ FactoryBot.define do
 		activated { true }
 		activated_at { Time.zone.now }
 
-		factory :owner do
-			transient do
-        projects_count { 10 }
-      end
+		factory :project_owner do
       after(:create) do |user, evaluator|
 				create(:owner, user: user, project: create(:project))
       end
 		end
-		factory :member do
-			transient do
-        projects_count { 10 }
-      end
+
+		factory :project_member do
       after(:create) do |user, evaluator|
 				create(:member, user: user, project: create(:project))
       end
 		end
 	end
 
-	factory :user_without_projects, class: User do
+	factory :user_without_projects, class: "User" do
 		name { "user_without_projects" }
 		email { "userwithoutrojects@gmail.com" }
 		sequence(:password) { |n| "password#{n}" }
@@ -34,7 +29,7 @@ FactoryBot.define do
 		activated_at { Time.zone.now }
 	end
 	
-	factory :invalidUser, class: User do
+	factory :invalidUser, class: "User" do
 		name { " " }
 		email { "user@invalid" }
 		password { "foo" }
@@ -43,7 +38,7 @@ FactoryBot.define do
 		activated_at { Time.zone.now }
 	end
 
-	factory :deactivatedUser, class: User do
+	factory :deactivatedUser, class: "User" do
 		name { "deactivatedUser" }
 		email { "deactivated@gmail.com" }
 		password { "deactivated" }
@@ -51,7 +46,7 @@ FactoryBot.define do
 		activated { false }
 	end
 
-	factory :adminUser, class: User do
+	factory :adminUser, class: "User" do
 		name { "admin" }
 		email { "admin@gmail.com" }
 		password { "adminadmin" }

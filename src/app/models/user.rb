@@ -65,13 +65,15 @@ class User < ApplicationRecord
 		reset_sent_at < 2.hours.ago
 	end
 
+	# Users create a new project by themselves
 	def be_owner(project)
 		self.members.create(user_id: id, project_id: project.id, owner: true)
 	end
 
-	# Show that user have all of projects
+	# Show all of open projects user have joined or created
+	# I want to know how to create the same method 
 	# def open_projects
-	# 	Project.where("user_id = ? AND status = ?", id, true)
+	# 	# Member.where("user_id = ?", id).includes(:project).select { |member| member.project.status == true }
 	# end
 
 	private

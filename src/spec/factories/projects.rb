@@ -21,7 +21,7 @@ FactoryBot.define do
     end
   end
 
-  factory :invalidProject, class: Project do
+  factory :invalidProject, class: "Project" do
     name { " " }
     description { " " }
     status { true }
