@@ -72,8 +72,6 @@ RSpec.describe "Project Index Page", type: :system do
             expect(page).to have_content(project.name)
             expect(page).to have_content(project.description)
             expect(page).to have_link("show_#{project.id}")
-            expect(page).to have_link("edit_#{project.id}")
-            expect(page).to have_link("close_#{project.id}")
           end
         end
       end

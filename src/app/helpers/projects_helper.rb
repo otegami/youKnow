@@ -1,5 +1,5 @@
 module ProjectsHelper
   def owner?(project)
-    p current_user.members.where(project_id: project.id, owner: true)
+    current_user.members.find_by('project_id = ?', project.id).owner
   end
 end
