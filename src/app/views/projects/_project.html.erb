@@ -8,6 +8,8 @@
   </td>
   <td>
     <%= link_to 'Edit', edit_project_path(project), class: "btn btn-success", id: "edit_#{project.id}" %>
-    | <%= link_to 'Close', project, class: "btn btn-dark" ,id: "close_#{project.id}", method: :delete, data: { confirm: "You sure?" } %>
+    <% if owner?(project) %>
+      | <%= link_to 'Close', project, class: "btn btn-dark" ,id: "close_#{project.id}", method: :delete, data: { confirm: "You sure?" } %>
+    <% end %>
   </td>
 </tr>
