@@ -43,7 +43,6 @@ class User < ApplicationRecord
 		UserMailer.account_activation(self).deliver_now
 	end	
 
-
 	# Delete the cookies about user
 	def forget
 		update_attribute(:remember_digest, nil)

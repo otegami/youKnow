@@ -5,8 +5,6 @@ RSpec.describe "Projects", type: :request do
   let!(:other_user){ FactoryBot.create(:user) }
   let(:owner){ FactoryBot.create(:project_owner) }
   let!(:member){ FactoryBot.create(:project_member) }
-#   let!(:other_user){ FactoryBot.create(:owner) }
-#   let!(:project){ FactoryBot.create(:project) }
   
   describe "Get /projects/params[:project_id]" do
     context "when user didn't log in" do
