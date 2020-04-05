@@ -19,18 +19,9 @@ FactoryBot.define do
     trait :tomorrow do
       created_at { Time.current.tomorrow }
     end
-    # I will have to change this place
-    # factory :project_with_members do
-		# 	transient do
-    #     members_count { 20 }
-    #   end
-    #   after(:create) do |project, evaluator|
-    #     create_list(:member, evaluator.members_count, project: project, user: create(:user))
-    #   end
-		# end
   end
 
-  factory :invalidProject, class: Project do
+  factory :invalidProject, class: "Project" do
     name { " " }
     description { " " }
     status { true }

@@ -68,13 +68,11 @@ RSpec.describe User, type: :model do
       end
     end  
   end
-
   describe "Authenticated?" do
     it "should return false for a user with nil digest" do
       expect(@user.authenticated?(:remember, '')).to be_falsey
     end  
   end
-
   # I will rewrite this test later beacase of having changed tabole
   # describe "with Project model" do
   #   it "associated project should be deleted" do

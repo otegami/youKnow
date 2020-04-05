@@ -1,3 +1,5 @@
+# You will have to rethink of the layout in this page.
+
 # require "rails_helper"
 
 # RSpec.describe "User profile page", type: :system do
