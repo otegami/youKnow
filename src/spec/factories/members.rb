@@ -5,7 +5,6 @@ FactoryBot.define do
     user
     project
   end
-
   factory :owner, class: "Member" do
     role { 1 }
     owner { true }
