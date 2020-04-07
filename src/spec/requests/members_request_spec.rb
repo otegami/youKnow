@@ -1,46 +1,58 @@
-# require 'rails_helper'
+require 'rails_helper'
 
-# RSpec.describe "Members", type: :request do
-#   let!(:project){ FactoryBot.create(:project_with_members) }
-#   let!(:user) { FactoryBot.create(:user) }
-  
-#   # user is a member of project or not
-#   describe "Get /projects/:project_id/members" do
-#     context "when user is this project owner" do
-#       before do
-#         user = project.owner
-#         post login_path, params: { session: {email: user.email, password: user.password}}
-#       end
-      
-#       it "should show the index page about member" do
-#         get project_members_path(project)
-#         expect(response).to have_http_status(:success)
-#       end
-#     end
-#     context "when user isn't a member of this project" do
-#       before do
-#         not_member = user
-#         post login_path, params: { session: {email: not_member.email, password: not_member.password}}
-#       end
-      
-#       it "shouldn't show the index page about member" do
-#         get project_members_path(project)
-#         expect(response).not_to have_http_status(:success)
-#       end
-#     end
-#     context "when user is a member of this project" do
-#       before do
-#         member = project.members.first.user
-#         p member
-#         post login_path, params: { session: {email: member.email, password: member.password}}
-#         p member.email
-#         p member.password
-#       end
+RSpec.describe "Members", type: :request do
+  let!(:owner){ FactoryBot.create(:project_owner) }
+  let!(:member){ FactoryBot.create(:project_member) }
+  let!(:the_other_user){ FactoryBot.create(:project_owner) }
 
-#       it "should show the index page about member" do
-#         get project_members_path(project)
-#         expect(response).to have_http_status(:success)
-#       end
-#     end
-#   end
-# end
+  describe "Get /projects/:project_id/members" do
+    context " when user didn't log in" do
+      context "as a not member of this project" do
+        it "shouldn't show member index page" do
+          project = owner.projects.first
+          get project_members_path(project)
+          expect(response).not_to have_http_status(:success)
+        end
+      end
+      context "as a owner of this project" do
+        it "shouldn't show member index page" do
+          project = member.projects.first
+          get project_members_path(project)
+          expect(response).not_to have_http_status(:success)
+        end
+      end
+    end
+    context "when user logged in " do
+      context "as not member of this project" do
+        before do
+          post login_path, params: { session: {email: owner.email, password: owner.password}}
+        end
+        it "should show member index page" do
+          project = owner.projects.first
+          get project_members_path(project)
+          expect(response).to have_http_status(:success)
+        end
+      end
+      context "as a member of this project" do
+        before do
+          post login_path, params: { session: {email: member.email, password: member.password}}
+        end
+        it "should show member index page" do
+          project = member.projects.first
+          get project_members_path(project)
+          expect(response).to have_http_status(:success)
+        end
+      end
+      context "as a owner of this project" do
+        before do
+          post login_path, params: { session: {email: the_other_user.email, password: the_other_user.password}}
+        end
+        it "should show member index page" do
+          project = owner.projects.first
+          get project_members_path(project)
+          expect(response).to have_http_status(:success)
+        end
+      end
+    end
+  end
+end
