@@ -7,7 +7,7 @@ RSpec.describe "Members", type: :request do
 
   describe "Get /projects/:project_id/members" do
     context " when user didn't log in" do
-      context "as a not member of this project" do
+      context "as a owner of this project" do
         it "shouldn't show member index page" do
           project = owner.projects.first
           get project_members_path(project)
@@ -25,12 +25,12 @@ RSpec.describe "Members", type: :request do
     context "when user logged in " do
       context "as not member of this project" do
         before do
-          post login_path, params: { session: {email: owner.email, password: owner.password}}
+          post login_path, params: { session: {email: the_other_user.email, password: the_other_user.password}}
         end
         it "should show member index page" do
           project = owner.projects.first
           get project_members_path(project)
-          expect(response).to have_http_status(:success)
+          expect(response).not_to have_http_status(:success)
         end
       end
       context "as a member of this project" do
@@ -45,7 +45,7 @@ RSpec.describe "Members", type: :request do
       end
       context "as a owner of this project" do
         before do
-          post login_path, params: { session: {email: the_other_user.email, password: the_other_user.password}}
+          post login_path, params: { session: {email: owner.email, password: owner.password}}
         end
         it "should show member index page" do
           project = owner.projects.first
