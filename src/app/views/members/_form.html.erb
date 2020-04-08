@@ -1,0 +1,10 @@
+<%= form_with scope: :member, url: project_members_path(@project), local: true do |f| %>  
+  <div class="form-group">
+    <%= f.label :user_email, class: 'control-label' %>
+    <%= f.email_field :user_email, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+  </div>
+<% end %>

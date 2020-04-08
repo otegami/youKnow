@@ -1,9 +1,14 @@
 class MembersController < ApplicationController
   before_action :logged_in_user
-  before_action :correct_member, only: :index
+  before_action :correct_member, only: [:index, :new]
+  before_action :correct_owner, only: :new
   before_action :manage_members, only: :index
+  before_action :check_project, only: [:index, :new]
 
   def index
+  end
+
+  def new
   end
 
   private
@@ -19,6 +24,9 @@ class MembersController < ApplicationController
 
   def manage_members
     @members = Member.where("project_id = ?", params[:project_id]).page params[:page]
+  end
+
+  def check_project
     @project = Project.find(params[:project_id])
   end
 end
