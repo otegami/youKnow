@@ -69,6 +69,11 @@ class User < ApplicationRecord
 		self.members.create(user_id: id, project_id: project.id, owner: true)
 	end
 
+	# User is added to new project member
+	def be_added_to(project)
+		Member.create(user_id: id, project_id: project.id)
+	end
+
 	# Show all of open projects user have joined or created
 	# I want to know how to create the same method 
 	# def open_projects

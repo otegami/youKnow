@@ -54,7 +54,7 @@ class UsersController < ApplicationController
         :password,
         :password_confirmation
       )
-    end 
+    end
     
     # check whether the user corresponds with current_user or not
     def correct_user

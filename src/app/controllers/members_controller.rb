@@ -1,9 +1,9 @@
 class MembersController < ApplicationController
   before_action :logged_in_user
   before_action :correct_member, only: [:index, :new]
-  before_action :correct_owner, only: :new
+  before_action :correct_owner, only: [:new, :create]
   before_action :manage_members, only: :index
-  before_action :check_project, only: [:index, :new]
+  before_action :check_project, only: [:index, :new, :create]
 
   def index
   end
@@ -11,7 +11,24 @@ class MembersController < ApplicationController
   def new
   end
 
+  def create
+    user = User.find_by(email: params[:member][:user_email])
+    if user
+      if user.be_added_to(@project)
+        flash[:success] = "#{user.name} is added !!"
+        redirect_to project_members_path(@project)
+      else
+        flash.now[:danger] = "This user has already been added !!"   
+        render 'new'
+      end
+    else
+      flash.now[:danger] = 'Sorry!! User cannot be found' 
+      render 'new'
+    end
+  end
+
   private
+
   def correct_member
     @member = current_user.members.find_by(project_id: params[:project_id])
     redirect_to root_url if @member.nil?
