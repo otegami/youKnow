@@ -164,6 +164,20 @@ RSpec.describe "Members", type: :request do
             }
           end.to change{ Member.count }.by(1)
         end
+        it "should add the same user to this project" do
+          expect do
+            post project_members_path(project), params: {
+              member: {
+                user_email: the_other_user.email
+              }
+            }
+            post project_members_path(project), params: {
+              member: {
+                user_email: the_other_user.email
+              }
+            }
+          end.to change { Member.count }.by(1)
+        end
       end
     end
   end
