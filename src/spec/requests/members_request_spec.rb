@@ -165,6 +165,7 @@ RSpec.describe "Members", type: :request do
           end.to change{ Member.count }.by(1)
         end
         it "should add the same user to this project" do
+          project = owner.projects.first
           expect do
             post project_members_path(project), params: {
               member: {
