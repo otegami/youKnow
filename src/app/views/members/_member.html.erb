@@ -1,0 +1,11 @@
+<tr>
+  <th scope="row">#</th>
+  <td>
+    <%= link_to member.user.name, '#' %>
+  </td>
+  <% if owner?(project) %>
+    <td>
+      <%= link_to 'Remove', '#', class: "btn btn-dark" ,id: "remove_#{member.id}", method: :delete, data: { confirm: "You sure?" } %>
+    </td>
+  <% end %>
+</tr>

@@ -10,18 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_01_101023) do
+ActiveRecord::Schema.define(version: 2020_03_31_060706) do
 
   create_table "members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "role"
-    t.bigint "user_id"
-    t.bigint "project_id"
+    t.integer "role", default: 1
+    t.boolean "owner", default: false
+    t.integer "user_id"
+    t.integer "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "owner", default: false
-    t.index ["project_id"], name: "index_members_on_project_id"
-    t.index ["user_id", "project_id"], name: "index_members_on_user_id_and_project_id"
-    t.index ["user_id"], name: "index_members_on_user_id"
+    t.index ["user_id", "project_id"], name: "index_members_on_user_id_and_project_id", unique: true
   end
 
   create_table "projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -30,25 +28,22 @@ ActiveRecord::Schema.define(version: 2020_04_01_101023) do
     t.boolean "status", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["created_at"], name: "index_projects_on_user_id_and_created_at"
+    t.index ["created_at"], name: "index_projects_on_created_at"
   end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "email"
+    t.boolean "admin", default: false
+    t.string "reset_digest"
+    t.string "activation_digest"
+    t.string "remember_digest"
+    t.string "password_digest"
+    t.boolean "activated", default: false
+    t.datetime "reset_sent_at"
+    t.datetime "activated_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "password_digest"
-    t.string "remember_digest"
-    t.boolean "admin", default: false
-    t.string "activation_digest"
-    t.boolean "activated", default: false
-    t.datetime "activated_at"
-    t.string "reset_digest"
-    t.datetime "reset_sent_at"
-    t.index ["email"], name: "index_users_on_email", unique: true
   end
-
-  add_foreign_key "members", "projects"
-  add_foreign_key "members", "users"
+  
 end

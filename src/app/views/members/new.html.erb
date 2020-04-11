@@ -1,0 +1,11 @@
+<% provide(:title, 'Add member') %>
+<% provide(:button_text, 'Add Member To Project') %>
+<h1>Add Member</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-10 col-offset-1 text-left">
+      <%= render 'form', project: @project %>
+    </div>
+  </div>
+</div>

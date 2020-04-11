@@ -3,6 +3,7 @@ class ProjectsController < ApplicationController
   before_action :correct_member, only: :show
   before_action :correct_owner, only: [:edit, :update, :destroy]
   before_action :manage_project, only: [:edit, :update, :destroy]
+  
   def show
     @project = Project.find(params[:id])
   end

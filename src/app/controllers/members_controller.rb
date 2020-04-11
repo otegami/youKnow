@@ -1,15 +1,49 @@
 class MembersController < ApplicationController
   before_action :logged_in_user
-  # before_action :correct_member
+  before_action :correct_member, only: [:index, :new]
+  before_action :correct_owner, only: [:new, :create]
+  before_action :manage_members, only: :index
+  before_action :check_project, only: [:index, :new, :create]
 
   def index
   end
 
+  def new
+  end
+
+  def create
+    user = User.find_by(email: params[:member][:user_email])
+    if user
+      if user.be_added_to(@project)
+        flash[:success] = "#{user.name} is added !!"
+        redirect_to project_members_path(@project)
+      else
+        flash.now[:danger] = "This user has already been added !!"   
+        render 'new'
+      end
+    else
+      flash.now[:danger] = 'Sorry!! User cannot be found' 
+      render 'new'
+    end
+  end
+
   private
+
   def correct_member
-    @project = current_user.projects.find_by(id: params[:project_id])
-    member = current_user.members.find_by(project_id: params[:project_id])
-    @project = member.project if member
-    redirect_to root_url if @project.nil?
+    @member = current_user.members.find_by(project_id: params[:project_id])
+    redirect_to root_url if @member.nil?
+  end
+
+  def correct_owner
+    @member = current_user.members.find_by(project_id: params[:project_id])
+    redirect_to root_url unless @member && @member.owner
+  end
+
+  def manage_members
+    @members = Member.where("project_id = ?", params[:project_id]).page params[:page]
+  end
+
+  def check_project
+    @project = Project.find(params[:project_id])
   end
 end

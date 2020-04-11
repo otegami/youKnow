@@ -16,11 +16,10 @@ RSpec.describe Member, type: :model do
       member.user_id = nil
       expect(member).to be_invalid
     end
-    # How to check this validation about boolean
-    # it "should check owner" do
-    #   member.owner = nil
-    #   expect(member).to be_invalid
-    # end
+    it "should check owner" do
+      member.owner = nil
+      expect(member).to be_invalid
+    end
     context "about Owner" do
       it "should check the default value about owner is true" do
         expect(owner.owner).to be true
