@@ -26,4 +26,10 @@ FactoryBot.define do
     description { " " }
     status { true }
   end
+
+  factory :test_project, class: "Project" do
+    name { "PROJECT_NAME" }
+    description{ "PROJECT_DESCRIPTION" }
+    status { true }
+  end
 end

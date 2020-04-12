@@ -5,10 +5,25 @@ FactoryBot.define do
     user
     project
   end
+
   factory :owner, class: "Member" do
     role { 1 }
     owner { true }
     user
     project
+  end
+
+  factory :test_member, class: "Member" do
+    role { 1 }
+    owner { false }
+    user
+    association :project, factory: :test_project
+  end
+
+  factory :test_owner, class: "Member" do
+    role { 1 }
+    owner { true }
+    user
+    association :project, factory: :test_project
   end
 end

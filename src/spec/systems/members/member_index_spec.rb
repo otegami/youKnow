@@ -59,7 +59,11 @@ RSpec.describe "Member Index Page In Project", type: :system do
           expect(page).to have_link 'Remove selected members'
           project.members.each do |member|
             expect(page).to have_text("#{member.user.name}")
-            expect(page).to have_link("remove_#{member.id}")
+            if member.owner
+              expect(page).not_to have_link("remove_#{member.id}")
+            else
+              expect(page).to have_link("remove_#{member.id}")
+            end
           end
         end
       end
