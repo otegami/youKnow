@@ -29,8 +29,10 @@ class MembersController < ApplicationController
 
   def destroy
     member = Member.find(params[:id])
-    flash[:success] = "#{member.user.name} removed"
-    member.destroy
+    unless member.owner
+      flash[:success] = "#{member.user.name} removed"
+      member.destroy 
+    end
   end
 
   private

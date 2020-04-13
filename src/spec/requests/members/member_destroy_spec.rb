@@ -55,7 +55,7 @@ RSpec.describe "Members", type: :request do
         end
         it "should return http success" do
           member = members.first
-          project = member.project
+          project = owner.project
           delete project_member_path(member), params: {
             project_id: project.id
           }
@@ -63,7 +63,7 @@ RSpec.describe "Members", type: :request do
         end
         it "should delete a member from this project." do
           member = members.first
-          project = member.project
+          project = owner.project
           expect do
             delete project_member_path(member), params: {
               project_id: project.id

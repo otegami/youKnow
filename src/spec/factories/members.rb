@@ -26,4 +26,11 @@ FactoryBot.define do
     user
     association :project, factory: :test_project
   end
+
+  factory :owner_of_project, class: "Member" do
+    role { 1 }
+    owner { true }
+    user
+    association :project, factory: :project_with_members
+  end
 end
