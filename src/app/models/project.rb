@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
   has_many :members
+  has_many :tags
 	has_many :users, through: :members
   default_scope -> { order(created_at: :desc) }
   validates :name, presence: true, length: { maximum: 30 }
