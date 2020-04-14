@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
-  # pending "add some examples to (or delete) #{__FILE__}"
-
   let!(:project){ FactoryBot.create(:project) }
   let!(:before10mins){ FactoryBot.create(:project, :before10mins) }
   let!(:before3years){ FactoryBot.create(:project, :before3years) }
