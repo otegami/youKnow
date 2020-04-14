@@ -1,7 +1,7 @@
 class MembersController < ApplicationController
   before_action :logged_in_user
   before_action :correct_member, only: [:index, :new]
-  before_action :correct_owner, only: [:new, :create]
+  before_action :correct_owner, only: [:new, :create, :destroy]
   before_action :manage_members, only: :index
   before_action :check_project, only: [:index, :new, :create]
 
@@ -13,7 +13,7 @@ class MembersController < ApplicationController
 
   def create
     user = User.find_by(email: params[:member][:user_email])
-    if user
+    if user && !(current_user == user)
       if user.be_added_to(@project)
         flash[:success] = "#{user.name} is added !!"
         redirect_to project_members_path(@project)
@@ -25,6 +25,15 @@ class MembersController < ApplicationController
       flash.now[:danger] = 'Sorry!! User cannot be found' 
       render 'new'
     end
+  end
+
+  def destroy
+    member = Member.find(params[:id])
+    unless member.owner
+      flash[:success] = "#{member.user.name} removed"
+      member.destroy 
+    end
+    redirect_to request.referrer || root_url
   end
 
   private

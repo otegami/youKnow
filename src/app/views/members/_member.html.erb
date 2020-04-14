@@ -3,9 +3,19 @@
   <td>
     <%= link_to member.user.name, '#' %>
   </td>
-  <% if owner?(project) %>
+  <% if owner?(project) && !(member.owner) %>
     <td>
-      <%= link_to 'Remove', '#', class: "btn btn-dark" ,id: "remove_#{member.id}", method: :delete, data: { confirm: "You sure?" } %>
+      <%= link_to 'Remove',
+        project_member_path(member,
+          params: {
+            project_id: project.id
+          }
+        ),
+        class: "btn btn-dark" ,
+        id: "remove_#{member.id}", 
+        method: :delete, 
+        data: { confirm: "You sure?" } 
+      %>
     </td>
   <% end %>
 </tr>
