@@ -33,6 +33,7 @@ class MembersController < ApplicationController
       flash[:success] = "#{member.user.name} removed"
       member.destroy 
     end
+    redirect_to request.referrer || root_url
   end
 
   private
