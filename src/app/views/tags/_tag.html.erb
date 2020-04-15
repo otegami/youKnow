@@ -1,0 +1,22 @@
+<tr>
+  <th scope="row">#</th>
+  <td>
+    <p><%= tag.name %></p>
+  </td>
+  <% if owner?(project) %>
+    <td>
+      <%= link_to 'Edit',
+        '#',
+        class: "btn btn-dark",
+        id: "edit_#{tag.id}"
+      %>
+      |<%= link_to 'Remove',
+        '#',
+        class: "btn btn-dark",
+        id: "remove_#{tag.id}",
+        method: :delete, 
+        data: { confirm: "You sure?" }
+      %>
+    </td>
+  <% end %>
+</tr>

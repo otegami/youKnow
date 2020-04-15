@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   scope shallow_prefix: "project" do
     resources :projects do
       resources :members, shallow: true, except: [:show, :edit]
+      resources :tags, shallow: true, except: [:show]
     end
   end
 end

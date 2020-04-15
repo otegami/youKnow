@@ -40,4 +40,18 @@ FactoryBot.define do
     user
     association :project, factory: :project_with_members
   end
+
+  factory :owner_of_project_with_tags, class: "Member" do
+    role { 1 }
+    owner { true }
+    user
+    association :project, factory: :project_with_tags
+  end
+
+  factory :member_of_project_with_tags, class: "Member" do
+    role { 1 }
+    owner { false }
+    user
+    association :project, factory: :project_with_tags
+  end
 end

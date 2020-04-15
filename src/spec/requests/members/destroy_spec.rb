@@ -59,7 +59,7 @@ RSpec.describe "Members", type: :request do
           delete project_member_path(member), params: {
             project_id: project.id
           }
-          expect(response).to have_http_status(:success)
+          expect(response).to have_http_status(302)
         end
         it "should delete a member from this project." do
           member = members.first

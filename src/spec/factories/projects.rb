@@ -21,7 +21,6 @@ FactoryBot.define do
     end
 
     factory :project_with_members do
-
       transient do
         members_count { 10 }
       end
@@ -29,7 +28,18 @@ FactoryBot.define do
       after(:create) do |project, evaluator|
         create_list(:member, evaluator.members_count, project: project)
       end
-		end
+    end
+    
+    factory :project_with_tags do
+      transient do
+        tags_count { 10 }
+      end
+
+      after(:create) do |project, evaluator|
+        create_list(:tag, evaluator.tags_count, project: project)
+        create(:member, project: project)
+      end
+    end
   end
 
   factory :invalidProject, class: "Project" do
