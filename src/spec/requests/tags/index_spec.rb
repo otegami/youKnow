@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Tags", type: :request do
   let!(:member){ FactoryBot.create(:member) }
   let!(:the_other_project){ FactoryBot.create(:project) }
+  
   describe "Get /projects/:project_id/tags" do
     context "when user didn't log in" do
       it "shouldn't show tag index page" do
