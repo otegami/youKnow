@@ -2,12 +2,13 @@ class TagsController < ApplicationController
   before_action :logged_in_user
   before_action :correct_member, only: [:index, :new]
   before_action :manage_tags, only: :index
-  before_action :check_project, only: :index
+  before_action :check_project, only: [:index, :new]
 
   def index
   end
 
   def new
+    @tag = Tag.new
   end
 
   private 
