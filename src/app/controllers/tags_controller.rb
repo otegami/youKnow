@@ -22,6 +22,7 @@ class TagsController < ApplicationController
   end
 
   def edit
+    @tag = Tag.find(params[:id])
   end
 
   private 

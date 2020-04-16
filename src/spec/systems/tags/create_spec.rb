@@ -33,7 +33,6 @@ RSpec.describe "Create tags In The Project", type: :system do
         end
         it "should create new tags" do
           project = member.project
-          tags = project.tags
           visit new_project_tag_path(project)
 
           fill_in "Name", with: 'Test tag Name'
@@ -47,7 +46,6 @@ RSpec.describe "Create tags In The Project", type: :system do
         end
         it "should create new tags" do
           project = owner.project
-          tags = project.tags
           visit new_project_tag_path(project)
 
           fill_in "Name", with: ''
