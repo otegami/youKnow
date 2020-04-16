@@ -53,6 +53,16 @@ RSpec.describe "Tags", type: :request do
         before do
           log_in_as(owner.user)
         end
+        it "shouldn't add a tag without tag's name" do
+          project = owner.project
+          expect{
+            post project_tags_path(project), params: { 
+              tag: {
+                name: '',
+              }
+            }
+          }.not_to change{ Tag.count }
+        end
         it "should add a tag" do
           project = owner.project
           expect{

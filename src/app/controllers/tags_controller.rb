@@ -15,7 +15,7 @@ class TagsController < ApplicationController
     @tag = @project.tags.build(tag_params)
     if @tag.save
       flash[:success] = "Tag is added !!"
-      redirect_to project_members_path(@project)
+      redirect_to project_tags_path(@project)
     else
       render 'new'
     end
