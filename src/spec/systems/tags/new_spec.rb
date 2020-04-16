@@ -33,7 +33,6 @@ RSpec.describe "Tag new Page In The Project", type: :system do
         end
         it "should show tag new page" do
           project = member.project
-          tags = project.tags
           visit new_project_tag_path(project)
 
           expect(page).to have_text 'Add Tag'
@@ -46,7 +45,6 @@ RSpec.describe "Tag new Page In The Project", type: :system do
         end
         it "should show tag new page" do
           project = owner.project
-          tags = project.tags
           visit new_project_tag_path(project)
 
           expect(page).to have_text 'Add Tag'

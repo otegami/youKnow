@@ -3,13 +3,17 @@
   <td>
     <p><%= tag.name %></p>
   </td>
-  <% if owner?(project) %>
-    <td>
-      <%= link_to 'Edit',
-        '#',
-        class: "btn btn-dark",
-        id: "edit_#{tag.id}"
-      %>
+  <td>
+    <%= link_to 'Edit',
+      edit_project_tag_path(tag,
+        params: {
+          project_id: project.id
+        }
+      ),
+      class: "btn btn-info",
+      id: "edit_#{tag.id}"
+    %>
+    <% if owner?(project) %>
       |<%= link_to 'Remove',
         '#',
         class: "btn btn-dark",
@@ -17,6 +21,6 @@
         method: :delete, 
         data: { confirm: "You sure?" }
       %>
-    </td>
-  <% end %>
+    <% end %>
+  </td>
 </tr>
