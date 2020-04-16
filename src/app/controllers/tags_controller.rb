@@ -1,8 +1,8 @@
 class TagsController < ApplicationController
   before_action :logged_in_user
-  before_action :correct_member, only: [:index, :new]
+  before_action :correct_member, only: [:index, :new, :create]
   before_action :manage_tags, only: :index
-  before_action :check_project, only: [:index, :new]
+  before_action :check_project, only: [:index, :new, :create]
 
   def index
   end
@@ -11,9 +11,23 @@ class TagsController < ApplicationController
     @tag = Tag.new
   end
 
+  def create
+    @tag = @project.tags.build(tag_params)
+    if @tag.save
+      flash[:success] = "Tag is added !!"
+      redirect_to project_tags_path(@project)
+    else
+      render 'new'
+    end
+  end
+
   private 
   # I think I can rewrite this method into shared method
   # for all controllers in project
+  def tag_params
+    params.require(:tag).permit(:name)
+  end
+
   def correct_member
     @member = current_user.members.find_by(project_id: params[:project_id])
     redirect_to root_url if @member.nil?
