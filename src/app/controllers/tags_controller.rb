@@ -1,6 +1,6 @@
 class TagsController < ApplicationController
   before_action :logged_in_user
-  before_action :correct_member, only: [:index, :new, :create]
+  before_action :correct_member, only: [:index, :new, :create, :edit]
   before_action :manage_tags, only: :index
   before_action :check_project, only: [:index, :new, :create]
 
@@ -19,6 +19,9 @@ class TagsController < ApplicationController
     else
       render 'new'
     end
+  end
+
+  def edit
   end
 
   private 
