@@ -74,6 +74,11 @@ class User < ApplicationRecord
 		Member.create(user_id: id, project_id: project.id)
 	end
 
+	# Check whether user is a member of the project or not
+	def member?(project_id)
+		self.members.find_by(project_id: project_id)
+	end
+
 	# Show all of open projects user have joined or created
 	# I want to know how to create the same method 
 	# def open_projects

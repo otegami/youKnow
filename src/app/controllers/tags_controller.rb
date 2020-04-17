@@ -1,7 +1,7 @@
 class TagsController < ApplicationController
   before_action :logged_in_user
-  before_action :correct_member, only: [:index, :new, :create, :edit]
-  before_action :manage_tags, only: :index
+  before_action :manage_tags, only: [:index,:edit, :update]
+  before_action :correct_member, only: [:index, :new, :create, :edit, :update]
   before_action :check_project, only: [:index, :new, :create]
 
   def index
@@ -22,7 +22,15 @@ class TagsController < ApplicationController
   end
 
   def edit
-    @tag = Tag.find(params[:id])
+  end
+
+  def update
+    if @tag.update_attributes(tag_params)
+      flash[:success] = 'Tag Update'
+      redirect_to project_tags_path(@tag.project)
+    else
+      render 'edit'
+    end
   end
 
   private 
@@ -33,11 +41,12 @@ class TagsController < ApplicationController
   end
 
   def correct_member
-    @member = current_user.members.find_by(project_id: params[:project_id])
+    @member = current_user.member?(params[:project_id] || @tag.project_id)
     redirect_to root_url if @member.nil?
   end
 
   def manage_tags
+    return @tag = Tag.find(params[:id]) if params[:id]
     @tags = Tag.where("project_id = ?", params[:project_id]).page params[:page]
   end
 

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Tags", type: :request do
-  describe "Get  /projects/:project_id/tags/new" do
+  describe "Get /tags/:id/edit" do
     let(:member){ FactoryBot.create(:member_of_project_with_tags) }
     let(:the_other_member){ FactoryBot.create(:member) }
     let(:owner){ FactoryBot.create(:owner_of_project_with_tags) } 

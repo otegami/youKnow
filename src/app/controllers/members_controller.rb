@@ -39,7 +39,7 @@ class MembersController < ApplicationController
   private
 
   def correct_member
-    @member = current_user.members.find_by(project_id: params[:project_id])
+    @member = current_user.member?(params[:project_id])
     redirect_to root_url if @member.nil?
   end
 
