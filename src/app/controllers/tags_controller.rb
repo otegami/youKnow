@@ -1,7 +1,8 @@
 class TagsController < ApplicationController
   before_action :logged_in_user
-  before_action :manage_tags, only: [:index,:edit, :update]
+  before_action :manage_tags, only: [:index,:edit, :update, :destroy]
   before_action :correct_member, only: [:index, :new, :create, :edit, :update]
+  before_action :correct_owner, only: :destroy
   before_action :check_project, only: [:index, :new, :create]
 
   def index
@@ -33,6 +34,12 @@ class TagsController < ApplicationController
     end
   end
 
+  def destroy
+    flash[:success] = "#{@tag.name} is removed"
+    @tag.destroy
+    redirect_to request.referrer || root_url
+  end
+
   private 
   # I think I can rewrite this method into shared method
   # for all controllers in project
@@ -43,6 +50,11 @@ class TagsController < ApplicationController
   def correct_member
     @member = current_user.member?(params[:project_id] || @tag.project_id)
     redirect_to root_url if @member.nil?
+  end
+
+  def correct_owner
+    @member = current_user.members.find_by(project_id: params[:project_id])
+    redirect_to root_url unless @member && @member.owner
   end
 
   def manage_tags
