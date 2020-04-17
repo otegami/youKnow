@@ -35,8 +35,9 @@ class TagsController < ApplicationController
   end
 
   def destroy
-    flash[:success] = "#{@tag.name} removed"
+    flash[:success] = "#{@tag.name} is removed"
     @tag.destroy
+    redirect_to request.referrer || root_url
   end
 
   private 

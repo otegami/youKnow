@@ -37,7 +37,7 @@ RSpec.describe "Tag Index Page In The Project", type: :system do
           tags = project.tags
           visit project_tags_path(project)
 
-          expect(page).to have_link 'Add Tag'
+          expect(page).to have_link 'Add Tag', href: new_project_tag_path(project)
           tags.each do |tag|
             expect(page).to have_text(tag.name)
             expect(page).to have_link("edit_#{tag.id}")
@@ -55,7 +55,7 @@ RSpec.describe "Tag Index Page In The Project", type: :system do
           tags = project.tags
           visit project_tags_path(project)
 
-          expect(page).to have_link 'Add Tag'
+          expect(page).to have_link 'Add Tag', href: new_project_tag_path(project)
           tags.each do |tag|
             expect(page).to have_text(tag.name)
             expect(page).to have_link("edit_#{tag.id}")

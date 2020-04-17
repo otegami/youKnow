@@ -33,10 +33,10 @@ RSpec.describe "Project Top Page", type: :system do
           project = owner.members.first.project
           visit project_path(project)
   
-          expect(page).to  have_link('Task')
-          expect(page).to  have_link('Label')
-          expect(page).to  have_link('Member')
-          expect(page).to  have_link('Graph')
+          expect(page).to  have_link 'Task'
+          expect(page).to  have_link 'Tag', href: project_tags_path(project)
+          expect(page).to  have_link 'Member', href: project_members_path(project)
+          expect(page).to  have_link 'Graph'
         end
       end
       context "as a project member" do
@@ -50,10 +50,10 @@ RSpec.describe "Project Top Page", type: :system do
           project = member.members.first.project
           visit project_path(project)
   
-          expect(page).to  have_link('Task')
-          expect(page).to  have_link('Label')
-          expect(page).to  have_link('Member')
-          expect(page).to  have_link('Graph')
+          expect(page).to  have_link 'Task'
+          expect(page).to  have_link 'Tag', href: project_tags_path(project)
+          expect(page).to  have_link 'Member', href: project_members_path(project)
+          expect(page).to  have_link 'Grap'
         end
       end 
     end

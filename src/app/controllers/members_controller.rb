@@ -30,7 +30,7 @@ class MembersController < ApplicationController
   def destroy
     member = Member.find(params[:id])
     unless member.owner
-      flash[:success] = "#{member.user.name} removed"
+      flash[:success] = "#{member.user.name} is removed"
       member.destroy 
     end
     redirect_to request.referrer || root_url
