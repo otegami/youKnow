@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_063322) do
+ActiveRecord::Schema.define(version: 2020_04_18_054453) do
 
   create_table "members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "role", default: 1
@@ -33,6 +33,16 @@ ActiveRecord::Schema.define(version: 2020_04_14_063322) do
 
   create_table "tags", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
+    t.integer "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tasks", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.datetime "deadline"
+    t.text "content"
+    t.integer "sort"
     t.integer "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
