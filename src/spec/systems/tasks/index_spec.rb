@@ -15,7 +15,7 @@ RSpec.describe "tasks' index page", type: :system do
         visit project_path(project)
 
         expect(page).to have_link 'Add Task'
-        expect(page).to have_link "Let's create your first task"
+        expect(page).to have_text "Let's create your first task"
       end
     end
     context "when user has at least one task" do
@@ -32,7 +32,7 @@ RSpec.describe "tasks' index page", type: :system do
           expect(page).to have_link task.name
           expect(page).to have_text task.deadline
           expect(page).to have_link "show_#{task.id}"
-          expect(page).to have_link "destroy_#{task.id}"
+          expect(page).to have_link "remove_#{task.id}"
         end
       end
     end

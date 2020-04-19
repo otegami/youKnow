@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
   
   def show
     @project = Project.find(params[:id])
-    @tasks = @project.tasks
+    @tasks = @project.tasks.page params[:page]
   end
 
   def new

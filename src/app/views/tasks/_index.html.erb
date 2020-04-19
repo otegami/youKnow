@@ -7,9 +7,7 @@
           <%= link_to "Add Task", '#', class: "btn btn-primary" %>
         </div>
       </div>
-      <% if @tasks.nil? %>
-        Let's create your first task
-      <% else %>
+      <% if @tasks.any? %>
         <div class="container">
           <div class="row">
             <table class="table table-hover">
@@ -32,6 +30,8 @@
             <%= paginate @tasks %>
           </div>
         </div>
+      <% else %>
+        Let's create your first task
       <% end %>
     </div>
   </div>
