@@ -1,0 +1,32 @@
+<tr>
+  <th scope="row">#</th>
+  <td>
+    <%= link_to task.name, '#' %>
+  </td>
+  <td>
+    "Task Status"
+  </td>
+  <td>
+    <%= task.deadline %>
+  </td>
+  <td>
+    "Task Priority"
+  </td>
+  <td>
+    "Task Tag"
+  </td>
+  <td>
+    <%= link_to 'Detail',
+      '#',
+      class: "btn btn-info",
+      id: "show_#{task.id}"
+    %>
+  </td>
+  <td>
+    <%= link_to 'X',
+      '#',
+      class: "btn btn-danger",
+      id: "remove_#{task.id}"
+    %>
+  </td>
+</tr>
