@@ -4,7 +4,7 @@
       <h1>Tasks</h1>
       <div class="container">
         <div class="row">
-          <%= link_to "Add Task", '#', class: "btn btn-primary" %>
+          <%= link_to "Add Task", new_project_task_path(@project), class: "btn btn-primary" %>
         </div>
       </div>
       <% if @tasks.any? %>
