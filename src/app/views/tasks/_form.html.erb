@@ -1,4 +1,4 @@
-<%= form_with model: @task, url: new_project_task_path(@project), local: true do |f| %>
+<%= form_with model: @task, url: project_tasks_path(@project), local: true do |f| %>
 
   <%= render 'shared/error_messages', object: f.object %>
   
@@ -32,6 +32,7 @@
 
   <div class="form-group">
     <%= f.label :priority, class: 'control-label' %>
+    <%= f.select(:priority, [ ['Low', 0], ['Medium', 1], ['High', 2] ]) %>
   </div>
 
   <div class="form-group">

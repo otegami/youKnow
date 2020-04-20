@@ -43,5 +43,15 @@ RSpec.describe Task, type: :model do
         expect(task).to be_invalid
       end
     end
+    context "About priority" do
+      it "should approve the number is under 2 " do
+        task.priority = 1
+        expect(task).to be_valid
+      end
+      it "should deny the number is more than 3 " do
+        task.priority = 3
+        expect(task).to be_invalid
+      end
+    end
   end
 end

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Create tags In The Project", type: :system do
+RSpec.describe "Create Tags In The Project", type: :system do
   let(:owner){ FactoryBot.create(:owner_of_project_with_tags) }
   let(:member){ FactoryBot.create(:member_of_project_with_tags) }
   let(:the_other_user){ FactoryBot.create(:member) }
