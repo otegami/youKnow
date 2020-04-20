@@ -21,7 +21,7 @@ class TasksController < ApplicationController
 
   private
   def task_params
-    params.require(:task).permit(:name, :deadline, :content)
+    params.require(:task).permit(:name, :deadline, :content, :priority)
   end
   def correct_member
     @member = current_user.member?(params[:project_id])

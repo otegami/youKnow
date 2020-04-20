@@ -4,6 +4,7 @@ class CreateTasks < ActiveRecord::Migration[5.2]
       t.string :name
       t.datetime :deadline
       t.text :content
+      t.integer :priority
       t.integer :sort
       t.integer :project_id, foreign_key: true
 

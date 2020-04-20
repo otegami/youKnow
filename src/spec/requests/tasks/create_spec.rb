@@ -12,7 +12,8 @@ RSpec.describe "Tasks", type: :request do
           task: {
             name: 'task_name',
             deadline: '2019-04-20',
-            content: 'What are you doing now?'
+            content: 'What are you doing now?',
+            priority: '0'
           }
         }
         expect(response).not_to have_http_status(:success)
@@ -30,7 +31,8 @@ RSpec.describe "Tasks", type: :request do
               task: {
                 name: 'task_name',
                 deadline: '2019-04-20',
-                content: 'What are you doing now?'
+                content: 'What are you doing now?',
+                priority: '0'
               }
             }
           end.not_to change { Task.count }
@@ -47,7 +49,8 @@ RSpec.describe "Tasks", type: :request do
               task: {
                 name: 'task_name',
                 deadline: '2019-04-20',
-                content: 'What are you doing now?'
+                content: 'What are you doing now?',
+                priority: '0'
               }
             }
           end.to change { Task.count }.by(1)
@@ -64,7 +67,8 @@ RSpec.describe "Tasks", type: :request do
               task: {
                 name: 'task_name',
                 deadline: '2019-04-20',
-                content: 'What are you doing now?'
+                content: 'What are you doing now?',
+                priority: '0'
               }
             }
           end.to change { Task.count }.by(1)
