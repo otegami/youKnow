@@ -3,7 +3,9 @@ class Task < ApplicationRecord
   set_sortable :sort
   belongs_to :project
   has_many :pics
+  has_many :taggings
   has_many :users, through: :pics
+  has_many :tags, through: :taggings
   validates :name, presence: true, length: { maximum: 30 }
   validates :deadline, presence: true
   validates :content, presence: true, length: { maximum: 500 }
