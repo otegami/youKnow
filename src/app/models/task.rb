@@ -2,6 +2,8 @@ class Task < ApplicationRecord
   include RailsSortable::Model
   set_sortable :sort
   belongs_to :project
+  has_many :pics
+  has_many :users, through: :pics
   validates :name, presence: true, length: { maximum: 30 }
   validates :deadline, presence: true
   validates :content, presence: true, length: { maximum: 500 }
