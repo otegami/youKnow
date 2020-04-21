@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_18_054453) do
+ActiveRecord::Schema.define(version: 2020_04_21_024022) do
 
   create_table "members", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "role", default: 1
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 2020_04_18_054453) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "project_id"], name: "index_members_on_user_id_and_project_id", unique: true
+  end
+
+  create_table "pics", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.boolean "owner", default: false
+    t.integer "user_id"
+    t.integer "task_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "task_id"], name: "index_pics_on_user_id_and_task_id", unique: true
   end
 
   create_table "projects", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
