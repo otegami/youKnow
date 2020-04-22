@@ -9,7 +9,7 @@ RSpec.describe "Tasks", type: :request do
       it "should return http success" do
         project = owner.project
         post project_tasks_path(project), params: {
-          task: {
+          task_form: {
             name: 'task_name',
             deadline: '2019-04-20',
             content: 'What are you doing now?',
@@ -32,7 +32,7 @@ RSpec.describe "Tasks", type: :request do
           project = owner.project
           expect do
             post project_tasks_path(project), params: {
-              task: {
+              task_form: {
                 name: 'task_name',
                 deadline: '2019-04-20',
                 content: 'What are you doing now?',
@@ -54,7 +54,7 @@ RSpec.describe "Tasks", type: :request do
           project = member.project
           expect do
             post project_tasks_path(project), params: {
-              task: {
+              task_form: {
                 name: 'task_name',
                 deadline: '2019-04-20',
                 content: 'What are you doing now?',
@@ -77,7 +77,7 @@ RSpec.describe "Tasks", type: :request do
           project = owner.project
           expect do
             post project_tasks_path(project), params: {
-              task: {
+              task_form: {
                 name: 'task_name',
                 deadline: '2019-04-20',
                 content: 'What are you doing now?',

@@ -10,6 +10,7 @@ class TasksController < ApplicationController
 
   def create
     @task_form = TaskForm.new(task_form_params)
+    @task_form.current_user = current_user
     if @task_form.save
       flash[:success] = "Task created"
       redirect_to project_path(@project)
@@ -21,7 +22,7 @@ class TasksController < ApplicationController
 
   private
   def task_form_params
-    params.require(:task).permit(
+    params.require(:task_form).permit(
       :name,
       :deadline,
       :content,

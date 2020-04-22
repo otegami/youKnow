@@ -15,7 +15,8 @@ RSpec.describe "Create Tasks In The Project", type: :system do
 
         fill_in "Name", with: ""
         fill_in "Deadline", with: ""
-        fill_in "Content", with: ""
+        fill_in "Content", with: "" 
+        select member.user.name, :from => "task_form[pic_attributes][user_id]"
         select 'Medium', :from => 'Priority'
         
         click_button 'Create My Task'
@@ -34,6 +35,7 @@ RSpec.describe "Create Tasks In The Project", type: :system do
         fill_in "Name", with: "New task"
         fill_in "Deadline", with: "04-20-2020"
         fill_in "Content", with: "Detail about new task"
+        select member.user.name, :from => "task_form[pic_attributes][user_id]"
         select 'High', :from => 'Priority'
         
         click_button 'Create My Task'
