@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Create Tasks In The Project", type: :system do
   describe "The process of creating new tasks in project" do
-    let(:member){ FactoryBot.create(:member) }
+    let(:member){ FactoryBot.create(:member_of_project_with_tags) }
 
     context "when user logged in as project's member" do
       before do
@@ -29,6 +29,7 @@ RSpec.describe "Create Tasks In The Project", type: :system do
 
       it "should crate a task" do
         project = member.project
+        tags = project.tags
         visit project_path(project)
         click_link 'Add Task'
 
@@ -36,6 +37,9 @@ RSpec.describe "Create Tasks In The Project", type: :system do
         fill_in "Deadline", with: "04-20-2020"
         fill_in "Content", with: "Detail about new task"
         select member.user.name, :from => "task_form[pic_attributes][user_id]"
+        tags.each do |tag|
+          check(tag.name)
+        end
         select 'High', :from => 'Priority'
         
         click_button 'Create My Task'
