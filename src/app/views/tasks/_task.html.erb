@@ -10,10 +10,12 @@
     <%= task.deadline %>
   </td>
   <td>
-    "Task Priority"
+    <%= priority_of(task.priority ) %>
   </td>
   <td>
-    "Task Tag"
+    <% tags_of(task).each do |tag| %>
+      <%= tag.name %>
+    <% end %>
   </td>
   <td>
     <%= link_to 'Detail',
