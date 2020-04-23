@@ -6,6 +6,7 @@ class TasksController < ApplicationController
   def new
     @task_form = TaskForm.new
     @members = @project.members
+    @tags = @project.tags
   end
 
   def create
@@ -16,6 +17,7 @@ class TasksController < ApplicationController
       redirect_to project_path(@project)
     else
       @members = @project.members
+      @tags = @project.tags
       render 'new'
     end
   end
@@ -30,6 +32,9 @@ class TasksController < ApplicationController
       :project_id,
       pic_attributes: [
         :user_id
+      ],
+      taggings_attributes: [
+        :tag_id => []
       ]
     )
   end

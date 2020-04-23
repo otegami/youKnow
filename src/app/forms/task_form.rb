@@ -29,13 +29,28 @@ class TaskForm
     end
   end
 
+  concerning :TagsBuilder do
+    attr_reader :taggings_attributes
+
+    def taggings
+      @taggings_attributes ||= Tagging.new
+    end
+    
+    def taggings_attributes=(attributes)
+      @taggings_attributes = []
+      attributes["tag_id"].each do |id|
+        @taggings_attributes << Tagging.new(tag_id: id)
+      end
+    end
+  end
+
   def save
     return false if invalid?
 
     task.assign_attributes(task_params)
-    build_asscociations
-
-    binding.pry
+    build_asscociations_with_tagging
+    build_asscociations_with_pic
+    
     if task.save
       true
     else
@@ -53,7 +68,12 @@ class TaskForm
     }
   end
 
-  def build_asscociations
+  def build_asscociations_with_tagging
+    task.taggings << taggings
+  end
+
+  def build_asscociations_with_pic
+    # Check whether pic user is themselves
     task.pics << pic unless pic.user_id == current_user.id
     task.pics << owner_pic
   end

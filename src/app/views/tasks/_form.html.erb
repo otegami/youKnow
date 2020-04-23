@@ -33,6 +33,12 @@
   </div>
 
   <div class="form-group">
+    <%= f.fields_for :tags do |tag_fields| %>
+      <%= tag_fields.collection_check_boxes(:tag_id, @tags, :id, :name, include_hidden: false) %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
     <%= f.label :priority, class: 'control-label' %>
     <%= f.select(:priority, [ ['Low', 0], ['Medium', 1], ['High', 2] ]) %>
   </div>
