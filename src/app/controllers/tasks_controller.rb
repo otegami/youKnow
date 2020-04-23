@@ -1,7 +1,11 @@
 class TasksController < ApplicationController
   before_action :logged_in_user
-  before_action :correct_member, only: [:new, :create]
+  before_action :manage_tasks, only: :show
+  before_action :correct_member, only: [:show, :new, :create]
   before_action :check_project, only: [:new, :create]
+
+  def show
+  end
 
   def new
     @task_form = TaskForm.new
@@ -38,8 +42,13 @@ class TasksController < ApplicationController
       ]
     )
   end
+
+  def manage_tasks
+    @task = Task.find(params[:id]) if params[:id]
+  end
+
   def correct_member
-    @member = current_user.member?(params[:project_id])
+    @member = current_user.member?(params[:project_id] || @task.project_id)
     redirect_to root_url if @member.nil?
   end
 

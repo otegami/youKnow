@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resources :projects do
       resources :members, shallow: true, except: [:show, :edit]
       resources :tags, shallow: true, except: [:show]
-      resources :tasks, shallow: true, only: [:new, :create]
+      resources :tasks, shallow: true, only: [:show, :new, :create]
     end
   end
 end
