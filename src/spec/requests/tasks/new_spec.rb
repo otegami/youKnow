@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Tasks', type: :request do
-  describe '/projects/:project_id/tasks/new' do
+  describe 'Get /projects/:project_id/tasks/new' do
     let(:member){ FactoryBot.create(:member) }
     let(:owner){ FactoryBot.create(:owner) }
     let(:the_other_member){ FactoryBot.create(:member) }

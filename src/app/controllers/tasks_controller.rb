@@ -4,24 +4,39 @@ class TasksController < ApplicationController
   before_action :check_project, only: [:new, :create]
 
   def new
-    @task = @project.tasks.build
+    @task_form = TaskForm.new
     @members = @project.members
+    @tags = @project.tags
   end
 
   def create
-    @task = @project.tasks.build(task_params)
-    if @task.save
+    @task_form = TaskForm.new(task_form_params)
+    @task_form.current_user = current_user
+    if @task_form.save
       flash[:success] = "Task created"
       redirect_to project_path(@project)
     else
       @members = @project.members
+      @tags = @project.tags
       render 'new'
     end
   end
 
   private
-  def task_params
-    params.require(:task).permit(:name, :deadline, :content, :priority)
+  def task_form_params
+    params.require(:task_form).permit(
+      :name,
+      :deadline,
+      :content,
+      :priority,
+      :project_id,
+      pic_attributes: [
+        :user_id
+      ],
+      taggings_attributes: [
+        :tag_id => []
+      ]
+    )
   end
   def correct_member
     @member = current_user.member?(params[:project_id])

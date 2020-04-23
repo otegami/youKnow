@@ -1,4 +1,4 @@
-<%= form_with model: @task, url: project_tasks_path(@project), local: true do |f| %>
+<%= form_with model: @task_form, url: project_tasks_path(@project), local: true do |f| %>
 
   <%= render 'shared/error_messages', object: f.object %>
   
@@ -13,8 +13,10 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :pic, class: 'control-label' %>
-    <%= f.select(:pic, options_for_select(user_info_from(@members))) %>
+    <%= f.fields_for :pic do |pic_fields| %>
+      <%= pic_fields.label :pic, class: 'control-label' %>
+      <%= pic_fields.select(:user_id, options_for_select(user_info_from(@members))) %>
+    <% end %>
   </div>
 
   <div class="form-group">
@@ -31,9 +33,17 @@
   </div>
 
   <div class="form-group">
+    <%= f.fields_for :taggings do |tag_fields| %>
+      <%= tag_fields.collection_check_boxes(:tag_id, @tags, :id, :name, include_hidden: false) %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
     <%= f.label :priority, class: 'control-label' %>
     <%= f.select(:priority, [ ['Low', 0], ['Medium', 1], ['High', 2] ]) %>
   </div>
+
+  <%= f.hidden_field :project_id, :value => @project.id %>
 
   <div class="form-group">
     <%= f.submit yield(:button_text), class: "btn btn-primary" %>
