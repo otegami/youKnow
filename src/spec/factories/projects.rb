@@ -51,6 +51,17 @@ FactoryBot.define do
         create(:member, project: project)
       end
     end
+
+    factory :project_with_full_tasks do
+      transient do
+        tasks_count { 3 }
+      end
+
+      after(:create) do |project, evaluator|
+        create_list(:task_with_tags_and_taggings, evaluator.tasks_count, project: project)
+        create(:member, project: project)
+      end
+    end
   end
 
   factory :invalidProject, class: "Project" do
