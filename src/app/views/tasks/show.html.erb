@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row">
+    <div class="">
+      <p>Status</p>
+    </div>
+    <% if pic_user?(@task) %>
+      <div class="">
+        <%= link_to 'Edit',
+          "#",
+          class: "btn btn-info",
+          id: "edit_#{@task.id}"
+        %>
+        |<%= link_to 'Close',
+          "#",
+          class: "btn btn-info",
+          id: "close_#{@task.id}"
+        %>
+      </div>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="">
+      <%= @task.name %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="">
+      <%= @task.deadline %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="">
+      <%= @task.content %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="">
+      <p>File</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="">
+      <% tags_of(@task).each do |tag| %>
+        <%= tag.name %>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="">
+      <%= priority_of(@task.priority ) %>
+    </div>
+  </div>
+</div>
