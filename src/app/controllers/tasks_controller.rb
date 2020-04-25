@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   before_action :logged_in_user
-  before_action :manage_tasks, only: :show
-  before_action :correct_member, only: [:show, :new, :create]
+  before_action :manage_tasks, only: [:show, :edit]
+  before_action :correct_member, only: [:show, :new, :create, :edit]
   before_action :check_project, only: [:new, :create]
 
   def show
@@ -24,6 +24,9 @@ class TasksController < ApplicationController
       @tags = @project.tags
       render 'new'
     end
+  end
+
+  def edit
   end
 
   private

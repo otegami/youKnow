@@ -13,7 +13,7 @@ FactoryBot.define do
 
       after(:create) do |task, evaluator|
         create_list(:tagging, evaluator.taggings_count, task: task)
-        create(:pic, task: task)
+        create(:pic_user, task: task)
       end
     end
   end
