@@ -1,11 +1,13 @@
 <% provide(:title, 'Add Tag') %>
 <% provide(:button_text, 'Add Tag') %>
+<% provide(:form_url, project_tags_path(@project)) %>
+<% provide(:method, :post) %>
 <h1>Add Tag</h1>
 
 <div class="container">
   <div class="row">
     <div class="col-10 col-offset-1 text-left">
-      <%= render 'create_form' %>      
+      <%= render 'form' %>      
     </div>
   </div>
 </div>

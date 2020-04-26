@@ -1,7 +1,8 @@
 class TasksController < ApplicationController
   before_action :logged_in_user
-  before_action :manage_tasks, only: :show
-  before_action :correct_member, only: [:show, :new, :create]
+  before_action :manage_tasks, only: [:show, :edit]
+  before_action :correct_pic, only: :edit
+  before_action :correct_member, only: [:show, :new, :create, :edit]
   before_action :check_project, only: [:new, :create]
 
   def show
@@ -26,6 +27,10 @@ class TasksController < ApplicationController
     end
   end
 
+  def edit
+    @task_form = TaskForm.find(params[:id])
+  end
+
   private
   def task_form_params
     params.require(:task_form).permit(
@@ -43,10 +48,6 @@ class TasksController < ApplicationController
     )
   end
 
-  def manage_tasks
-    @task = Task.find(params[:id]) if params[:id]
-  end
-
   def correct_member
     @member = current_user.member?(params[:project_id] || @task.project_id)
     redirect_to root_url if @member.nil?
@@ -54,5 +55,13 @@ class TasksController < ApplicationController
 
   def check_project
     @project = Project.find(params[:project_id])
+  end
+
+  def manage_tasks
+    @task = Task.find(params[:id]) if params[:id]
+  end
+
+  def correct_pic
+    redirect_to root_url unless pic_user?(@task)
   end
 end

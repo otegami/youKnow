@@ -44,6 +44,12 @@ class TaskForm
     end
   end
 
+  class << self
+    task
+  end
+
+  end
+  
   def save
     return false if invalid?
 
@@ -56,6 +62,10 @@ class TaskForm
     else
       false
     end
+  end
+
+  def find(id)
+
   end
 
   private
