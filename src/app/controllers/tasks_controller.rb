@@ -28,6 +28,7 @@ class TasksController < ApplicationController
   end
 
   def edit
+    @task_form = TaskForm.find(params[:id])
   end
 
   private

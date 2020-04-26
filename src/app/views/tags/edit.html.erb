@@ -1,11 +1,13 @@
 <% provide(:title, 'Edit Tag') %>
 <% provide(:button_text, 'Update') %>
+<% provide(:form_url, project_tag_path(@tag)) %>
+<% provide(:method, :patch) %>
 <h1>Edit Tag</h1>
 
 <div class="container">
   <div class="row">
     <div class="col-10 col-offset-1 text-left">
-      <%= render 'edit_form' %>
+      <%= render 'form' %>
     </div>
   </div>
 </div>

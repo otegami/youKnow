@@ -5,4 +5,9 @@ module SystemHelpers
     fill_in "Password", with: user.password
     click_button "Log in"
   end
+
+  def priority_of(task)
+    priorities = ['Low', 'Medium', 'High']
+    priorities[task]
+  end
 end

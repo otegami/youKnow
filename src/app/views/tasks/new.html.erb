@@ -1,5 +1,8 @@
 <% provide(:title, 'Create Task') %>
 <% provide(:button_text, 'Create My Task') %>
+<% provide(:form_url, project_tasks_path(@project)) %>
+<% provide(:method, :post) %>
+
 <h1>Create Task</h1>
 
 <div class="container">

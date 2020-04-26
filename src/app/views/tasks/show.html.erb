@@ -6,7 +6,7 @@
     <% if pic_user?(@task) %>
       <div class="">
         <%= link_to 'Edit',
-          "#",
+          edit_project_task_path(@task),
           class: "btn btn-info",
           id: "edit_#{@task.id}"
         %>
