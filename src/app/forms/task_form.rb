@@ -14,7 +14,7 @@ class TaskForm
   end
 
   concerning :PicBuilder do
-    attr_reader :pic_attributes
+    attr_accessor :pic_attributes
     
     def pic_attributes=(attributes)
       @pic_attributes = Pic.new(attributes)
@@ -27,10 +27,20 @@ class TaskForm
     def owner_pic
       Pic.new(user_id: current_user.id, owner: true)
     end
+
+    def pic_user(task_attributes)
+      pic_user = task_attributes.pics.find_by(owner: false )
+      if pic_user
+        { "user_id" => pic_user.id }
+      else
+        pic_owner = task_attributes.pics.find_by(owner: true )
+        { "user_id" => pic_owner.id }
+      end
+    end
   end
 
   concerning :TagsBuilder do
-    attr_reader :taggings_attributes
+    attr_accessor :taggings_attributes
 
     def taggings
       @taggings_attributes ||= Tagging.new
@@ -42,12 +52,30 @@ class TaskForm
         @taggings_attributes << Tagging.new(tag_id: id)
       end
     end
+
+    def tags_id(task_attributes)
+      task_attributes.tags.each do |tagging|
+        form.taggings_attributes << tagging.tag_id.to_s  
+      end
+    end
   end
 
   class << self
-    task
-  end
-
+    def find(id)
+      task_attributes = Task.find(id)
+      @task_form = TaskForm.new(
+        name: task_attributes.name,
+        deadline: task_attributes.deadline,
+        content: task_attributes.content,
+        priority: task_attributes.priority,
+        pic_attributes: {
+          user_id: pic_user(task_attributes)
+        },
+        taggings_attributes: {
+          tag_id: tags_id(task_attributes)
+        }
+      )
+    end
   end
   
   def save
@@ -62,10 +90,6 @@ class TaskForm
     else
       false
     end
-  end
-
-  def find(id)
-
   end
 
   private
