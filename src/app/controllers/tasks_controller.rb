@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   before_action :manage_tasks, only: [:show, :edit]
   before_action :correct_pic, only: :edit
   before_action :correct_member, only: [:show, :new, :create, :edit]
-  before_action :check_project, only: [:new, :create]
+  before_action :check_project, only: [:new, :create, :edit]
 
   def show
   end
@@ -29,6 +29,12 @@ class TasksController < ApplicationController
 
   def edit
     @task_form = TaskForm.find(params[:id])
+    @members = @project.members
+    @tags = @project.tags
+  end
+
+  def persisted?
+    task_attributes.nil? ? false : true
   end
 
   private
@@ -43,7 +49,7 @@ class TasksController < ApplicationController
         :user_id
       ],
       taggings_attributes: [
-        :tag_id => []
+        :tag_ids => []
       ]
     )
   end
@@ -54,7 +60,7 @@ class TasksController < ApplicationController
   end
 
   def check_project
-    @project = Project.find(params[:project_id])
+    @project = Project.find(params[:project_id] || @task.project_id)
   end
 
   def manage_tasks

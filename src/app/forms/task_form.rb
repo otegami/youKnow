@@ -1,6 +1,6 @@
 class TaskForm
   include ActiveModel::Model
-  attr_accessor :name, :deadline, :content, :priority, :project_id, :current_user
+  attr_accessor :name, :deadline, :content, :priority, :project_id, :current_user, :task_attributes
 
   validates :name, presence: true, length: { maximum: 30 }
   validates :deadline, presence: true
@@ -14,10 +14,14 @@ class TaskForm
   end
 
   concerning :PicBuilder do
-    attr_accessor :pic_attributes
-    
+    attr_reader :pic_attributes
+
     def pic_attributes=(attributes)
-      @pic_attributes = Pic.new(attributes)
+      if task_attributes.nil?
+        @pic_attributes = Pic.new(attributes)
+      else
+        @pic_attributes = attributes.pic_user
+      end
     end
 
     def pic
@@ -27,35 +31,27 @@ class TaskForm
     def owner_pic
       Pic.new(user_id: current_user.id, owner: true)
     end
-
-    def pic_user(task_attributes)
-      pic_user = task_attributes.pics.find_by(owner: false )
-      if pic_user
-        { "user_id" => pic_user.id }
-      else
-        pic_owner = task_attributes.pics.find_by(owner: true )
-        { "user_id" => pic_owner.id }
-      end
-    end
   end
 
   concerning :TagsBuilder do
-    attr_accessor :taggings_attributes
+    attr_reader :taggings_attributes
 
     def taggings
-      @taggings_attributes ||= Tagging.new
+      @taggings_attributes ||= Task.new
     end
     
     def taggings_attributes=(attributes)
-      @taggings_attributes = []
-      attributes["tag_id"].each do |id|
-        @taggings_attributes << Tagging.new(tag_id: id)
-      end
-    end
-
-    def tags_id(task_attributes)
-      task_attributes.tags.each do |tagging|
-        form.taggings_attributes << tagging.tag_id.to_s  
+      if task_attributes.nil?
+        @taggings_attributes = []
+        attributes["tag_ids"].each do |id|
+          @taggings_attributes << Tagging.new(tag_id: id)
+        end
+      else
+        @taggings_attributes = attributes
+        # @taggings_attributes = []
+        # attributes.taggings.each do |tagging|
+        #   @taggings_attributes << tagging
+        # end
       end
     end
   end
@@ -68,14 +64,15 @@ class TaskForm
         deadline: task_attributes.deadline,
         content: task_attributes.content,
         priority: task_attributes.priority,
-        pic_attributes: {
-          user_id: pic_user(task_attributes)
-        },
-        taggings_attributes: {
-          tag_id: tags_id(task_attributes)
-        }
+        task_attributes: task_attributes,
+        pic_attributes: task_attributes,
+        taggings_attributes: task_attributes
       )
     end
+  end
+
+  def persisted?
+    task_attributes.nil? ? false : true
   end
   
   def save
