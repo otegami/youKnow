@@ -10,4 +10,9 @@ module SystemHelpers
     priorities = ['Low', 'Medium', 'High']
     priorities[task]
   end
+
+  def pic_user(task)
+    pic = task.pics.find_by(owner: false) || task.pics.find_by(owner: true)
+    pic.user
+  end
 end

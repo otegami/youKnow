@@ -21,12 +21,13 @@ RSpec.describe "Editing A Task to Project", type: :system do
           #  expect(page).to have_link "back_#{task.id}"
           #  expect(page).to have_link "update_#{task.id}"
           expect(page).to have_field 'Name', with: task.name
-          expect(page).to have_field 'Deadline', with: task.deadline
+          expect(page).to have_field 'Deadline', with: task.deadline.strftime("%Y-%m-%d")
           # expect(page).to have_field 'Pic', with task.pic
+          # expect(page).to have_select('task_form[pic_attributes][user_id]', selected: pic_user(task).name)
           expect(page).to have_field 'Content', with: task.content
           # expect(page).to have_field 'File', with task.
           # expect(page).to have_field 'Tag', with task.
-          # expect(page).to have_field 'Priority', with task.
+          expect(page).to have_select('Priority', selected: priority_of(task.priority))
           # expect(page).to have_text task.files
         end
       end

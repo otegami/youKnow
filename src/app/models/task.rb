@@ -12,8 +12,7 @@ class Task < ApplicationRecord
   validates :priority, presence: true, numericality: { less_than_or_equal_to: 2 }
 
   def pic_user
-    pic = self.pics.find_by(owner: false)
-    pic.nil? ? pic = self.pics.find_by(owner: true) : pic
+    pic = self.pics.find_by(owner: false) || self.pics.find_by(owner: true)
   end
 
   def tags_id

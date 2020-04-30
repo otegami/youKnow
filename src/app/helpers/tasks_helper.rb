@@ -11,4 +11,9 @@ module TasksHelper
   def pic_user?(task)
     task.pics.any?{ |pic| pic.user == current_user }
   end
+  
+  def pic_user(task)
+    pic = task.pics.find_by(owner: false) || task.pics.find_by(owner: true)
+    pic.user
+  end
 end
