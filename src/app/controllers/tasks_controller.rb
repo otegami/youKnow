@@ -33,9 +33,18 @@ class TasksController < ApplicationController
     @tags = @project.tags
   end
 
-  def persisted?
-    task_attributes.nil? ? false : true
+  def update
+    @task_form = TaskForm.new(task_form_params)
+    if @task_form.update
+      # redirect_to task_index_page
+    else
+      # render 'edit'
+    end
   end
+
+  # def persisted?
+  #   task_attributes.nil? ? false : true
+  # end
 
   private
   def task_form_params

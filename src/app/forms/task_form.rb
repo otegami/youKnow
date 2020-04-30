@@ -1,6 +1,6 @@
 class TaskForm
   include ActiveModel::Model
-  attr_accessor :name, :deadline, :content, :priority, :project_id, :current_user, :task_attributes
+  attr_accessor :name, :deadline, :content, :priority, :project_id, :current_user, :task_attributes 
 
   validates :name, presence: true, length: { maximum: 30 }
   validates :deadline, presence: true
@@ -10,6 +10,10 @@ class TaskForm
   concerning :TaskBuilder do
     def task
       @task ||= Project.find(project_id).tasks.build
+    end
+
+    def task(id)
+      @task = Task.find(id)
     end
   end
 
@@ -30,6 +34,10 @@ class TaskForm
 
     def owner_pic
       Pic.new(user_id: current_user.id, owner: true)
+    end
+
+    def owner_pic?(pic)
+      pic.user_id == task.pics.user_id
     end
   end
 
@@ -79,14 +87,23 @@ class TaskForm
     return false if invalid?
 
     task.assign_attributes(task_params)
-    build_asscociations_with_tagging
-    build_asscociations_with_pic
+    build_associations_with_tagging
+    build_associations_with_pic
     
     if task.save
       true
     else
       false
     end
+  end
+
+  def update(id)
+    return false if invalid?
+    task(id)
+    update_associations_with_tagging
+    update_associations_with_pic
+
+    task_attributes.update_attributes(task_params)
   end
 
   private
@@ -99,13 +116,27 @@ class TaskForm
     }
   end
 
-  def build_asscociations_with_tagging
+  def build_associations_with_tagging
     task.taggings << taggings
   end
 
-  def build_asscociations_with_pic
+  def build_associations_with_pic
     # Check whether pic user is themselves
     task.pics << pic unless pic.user_id == current_user.id
     task.pics << owner_pic
+  end
+
+  def update_associations_with_tagging
+    task.taggings each do |tagging|
+      tagging.destroy
+    end
+    task.taggings << taggings
+  end
+
+  def update_associations_with_pic
+    task.pics each do |pic|
+      pic.destroy unless pic.owner
+    end
+    task.pics << pic unless owner_pic?(pic)
   end
 end

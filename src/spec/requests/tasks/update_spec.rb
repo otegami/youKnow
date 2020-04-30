@@ -11,21 +11,23 @@ RSpec.describe "Tasks", type: :request do
     context "when user didn't log in" do
       it "should not edit any task" do
         project = pic_member.project
+        other_member = project.members.second
         task = project.tasks.first
-        expect{
-          patch project_task_path(project), params: {
+
+        expect do
+          patch project_task_path(task), params: {
             task_form: {
-              name: 'task_name',
-              deadline: '2019-04-20',
-              content: 'What are you doing now?',
-              priority: '0',
-              project_id: pic_member.project.id,
+              name: 'changed name',
+              deadline: '2222-22-22',
+              content: 'changted content',
+              priority: '1',
+              project_id: project.id,
               pic_attributes: {
-                user_id: member.user.id
+                user_id: other_member.user.id
               }
             }
           }
-        }.not_to change{ tag.reload.name }.from(tag.name)
+        end.not_to change{ task.reload }.from(task)
       end
     end
     context "when user logged in" do
@@ -34,60 +36,97 @@ RSpec.describe "Tasks", type: :request do
           log_in_as(the_other_member.user)
         end
         it "should not edit any tasks" do
-          project = owner.project
-          tag = project.tags.first
-          expect{
-            patch project_tag_path(tag), params: { 
-              tag: {
-                name: 'test tag',
+          project = pic_member.project
+          other_member = project.members.second
+          task = project.tasks.first
+              
+          expect do
+            patch project_task_path(task), params: {
+              task_form: {
+                name: 'changed name',
+                deadline: '2222-22-22',
+                content: 'changted content',
+                priority: '1',
+                project_id: project.id,
+                pic_attributes: {
+                  user_id: other_member.user.id
+                }
               }
             }
-          }.not_to change{ tag.reload.name }.from(tag.name)
+          end.not_to change{ task.reload }.from(task)
         end
       end
       context "as a member without pic's task" do
         before do
           log_in_as(member.user)
         end
-        it "should edit a task" do
+        it "shouldn't edit a task" do
           project = member.project
-          tag = project.tags.first
-          changed_name = 'test tag'
-          expect{
-            patch project_tag_path(tag), params: { 
-              tag: {
-                name: changed_name,
+          other_member = project.members.second
+          task = project.tasks.first
+              
+          expect do
+            patch project_task_path(task), params: {
+              task_form: {
+                name: 'changed name',
+                deadline: '2222-22-22',
+                content: 'changted content',
+                priority: '1',
+                project_id: project.id,
+                pic_attributes: {
+                  user_id: other_member.user.id
+                }
               }
             }
-          }.to change{ tag.reload.name }.from(tag.name).to(changed_name)
+          end.not_to change{ task.reload }.from(task)
         end
       end
       context "as a member with pic's task" do
         before do
-          log_in_as(owner.user)
+          log_in_as(pic_member.user)
         end
         it "shouldn't edit a task without every attributes" do
-          project = owner.project
-          tag = project.tags.first
-          expect{
-            patch project_tag_path(tag), params: { 
-              tag: {
+          project = pic_member.project
+          other_member = project.members.second
+          task = project.tasks.first
+              
+          expect do
+            patch project_task_path(task), params: {
+              task_form: {
                 name: '',
+                deadline: '',
+                content: '',
+                priority: '',
+                project_id: project.id,
+                pic_attributes: {
+                  user_id: ''
+                }
               }
             }
-          }.not_to change{ tag.reload.name }.from(tag.name)
+          end.not_to change{ task.reload }.from(task)
         end
         it "should edit a task" do
-          project = owner.project
-          tag = project.tags.first
-          changed_name = 'test tag'
-          expect{
-            patch project_tag_path(tag), params: { 
-              tag: {
-                name: changed_name,
+          project = pic_member.project
+          other_member = project.members.second
+          task = project.tasks.first
+              
+          expect do
+            patch project_task_path(task), params: {
+              task_form: {
+                name: 'changed name',
+                deadline: '2222-22-22',
+                content: 'changted content',
+                priority: 2,
+                project_id: project.id,
+                pic_attributes: {
+                  user_id: other_member.user.id
+                }
               }
             }
-          }.to change{ tag.reload.name }.from(tag.name).to(changed_name)
+          end.to change{ task.reload.name }.from(task.name).to('changed name').
+              and change{ task.reload.deadline }.from(task.deadline).to('2222-22-22').
+              and change{ task.reload.content }.from(task.content).to('changted content').
+              and change{ task.reload.priority }.from(task.priority).to(2)
         end
       end
     end
