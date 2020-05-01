@@ -114,7 +114,7 @@ RSpec.describe "Tasks", type: :request do
             patch project_task_path(task), params: {
               task_form: {
                 name: 'changed name',
-                deadline: '2222-22-22',
+                deadline: '2019-04-20',
                 content: 'changted content',
                 priority: 2,
                 project_id: project.id,
@@ -124,7 +124,7 @@ RSpec.describe "Tasks", type: :request do
               }
             }
           end.to change{ task.reload.name }.from(task.name).to('changed name').
-              and change{ task.reload.deadline }.from(task.deadline).to('2222-22-22').
+              and change{ task.reload.deadline }.from(task.deadline.strftime("%Y-%m-%d")).to('2019-04-20').
               and change{ task.reload.content }.from(task.content).to('changted content').
               and change{ task.reload.priority }.from(task.priority).to(2)
         end

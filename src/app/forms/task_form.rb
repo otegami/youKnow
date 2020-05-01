@@ -12,7 +12,7 @@ class TaskForm
       @task ||= Project.find(project_id).tasks.build
     end
 
-    def task(id)
+    def base_task(id)
       @task = Task.find(id)
     end
   end
@@ -37,7 +37,7 @@ class TaskForm
     end
 
     def owner_pic?(pic)
-      pic.user_id == task.pics.user_id
+      pic.user_id == task.pic_owner.user_id unless task.pic_owner.nil?
     end
   end
 
@@ -46,6 +46,10 @@ class TaskForm
 
     def taggings
       @taggings_attributes ||= Task.new
+    end
+
+    def edit_taggings
+      @taggings_attributes
     end
     
     def taggings_attributes=(attributes)
@@ -99,11 +103,16 @@ class TaskForm
 
   def update(id)
     return false if invalid?
-    task(id)
+
+    base_task(id)
     update_associations_with_tagging
     update_associations_with_pic
-
-    task_attributes.update_attributes(task_params)
+   
+    if task.update_attributes(task_params)
+      true
+    else
+      false
+    end
   end
 
   private
@@ -127,14 +136,12 @@ class TaskForm
   end
 
   def update_associations_with_tagging
-    task.taggings each do |tagging|
-      tagging.destroy
-    end
-    task.taggings << taggings
+    task.taggings.destroy_all
+    task.taggings << edit_taggings unless edit_taggings.nil?
   end
 
   def update_associations_with_pic
-    task.pics each do |pic|
+    task.pics.each do |pic|
       pic.destroy unless pic.owner
     end
     task.pics << pic unless owner_pic?(pic)

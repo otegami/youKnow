@@ -15,6 +15,10 @@ class Task < ApplicationRecord
     pic = self.pics.find_by(owner: false) || self.pics.find_by(owner: true)
   end
 
+  def pic_owner
+    pic = self.pics.find_by(owner: true)
+  end
+
   def tags_id
     if self.tags
       self.taggings.map.with_object([]) do |tagging, tags_id|
