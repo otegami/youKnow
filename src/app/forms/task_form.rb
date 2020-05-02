@@ -47,10 +47,6 @@ class TaskForm
     def taggings
       @taggings_attributes ||= Task.new
     end
-
-    def edit_taggings
-      @taggings_attributes
-    end
     
     def taggings_attributes=(attributes)
       if task_attributes.nil?
@@ -137,7 +133,7 @@ class TaskForm
 
   def update_associations_with_tagging
     task.taggings.destroy_all
-    task.taggings << edit_taggings unless edit_taggings.nil?
+    task.taggings << @taggings_attributes unless @taggings_attributes.nil?
   end
 
   def update_associations_with_pic

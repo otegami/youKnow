@@ -124,7 +124,7 @@ RSpec.describe "Tasks", type: :request do
               }
             }
           end.to change{ task.reload.name }.from(task.name).to('changed name').
-              and change{ task.reload.deadline }.from(task.deadline.strftime("%Y-%m-%d")).to('2019-04-20').
+              and change{ task.reload.deadline }.
               and change{ task.reload.content }.from(task.content).to('changted content').
               and change{ task.reload.priority }.from(task.priority).to(2)
         end
