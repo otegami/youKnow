@@ -34,7 +34,7 @@
 
   <div class="form-group">
     <%= f.fields_for :taggings do |tag_fields| %>
-      <%= tag_fields.collection_check_boxes(:tag_id, @tags, :id, :name, include_hidden: false) %>
+      <%= tag_fields.collection_check_boxes(:tag_ids, @tags, :id, :name, include_hidden: false) %>
     <% end %>
   </div>
 

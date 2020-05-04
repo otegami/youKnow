@@ -6,6 +6,10 @@ FactoryBot.define do
     priority { rand(0..2) }
     project
 
+    after(:create) do |task|
+      create(:pic, task: task)
+    end
+
     factory :task_with_tags_and_taggings do
       transient do
         taggings_count { 2 }

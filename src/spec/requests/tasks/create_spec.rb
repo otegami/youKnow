@@ -43,7 +43,7 @@ RSpec.describe "Tasks", type: :request do
                   user_id: member.user.id
                 ],
                 taggings_attributes: {
-                  tag_id: tags
+                  tag_ids: tags
                 }
               }
             }
@@ -69,7 +69,7 @@ RSpec.describe "Tasks", type: :request do
                   user_id: member.user.id
                 },
                 taggings_attributes: {
-                  tag_id: tags
+                  tag_ids: tags
                 }
               }
             }
@@ -95,7 +95,7 @@ RSpec.describe "Tasks", type: :request do
                   user_id: member.user.id
                 },
                 taggings_attributes: {
-                  tag_id: tags
+                  tag_ids: tags
                 }
               }
             }

@@ -27,7 +27,7 @@ RSpec.describe "Detail Task Page", type: :system do
           task.tags.each do |tag|
             expect(page).to have_text tag.name
           end
-          expect(page).to have_text task.priority
+          expect(page).to have_text priority_of(task.priority)
         end
       end
       context "as a person in charge of task" do
@@ -45,6 +45,7 @@ RSpec.describe "Detail Task Page", type: :system do
           expect(page).to have_link "edit_#{task.id}"
           expect(page).to have_link "close_#{task.id}"
           expect(page).to have_text task.name
+          expect(page).to have_text pic_user(task).name
           expect(page).to have_text task.deadline
           expect(page).to have_text task.content
           # expect(page).to have_text task.files

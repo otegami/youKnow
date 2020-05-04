@@ -1,6 +1,6 @@
 class TaskForm
   include ActiveModel::Model
-  attr_accessor :name, :deadline, :content, :priority, :project_id, :current_user
+  attr_accessor :name, :deadline, :content, :priority, :project_id, :current_user, :task_attributes 
 
   validates :name, presence: true, length: { maximum: 30 }
   validates :deadline, presence: true
@@ -11,13 +11,21 @@ class TaskForm
     def task
       @task ||= Project.find(project_id).tasks.build
     end
+
+    def base_task(id)
+      @task = Task.find(id)
+    end
   end
 
   concerning :PicBuilder do
     attr_reader :pic_attributes
-    
+
     def pic_attributes=(attributes)
-      @pic_attributes = Pic.new(attributes)
+      if task_attributes.nil?
+        @pic_attributes = Pic.new(attributes)
+      else
+        @pic_attributes = attributes.pic_user
+      end
     end
 
     def pic
@@ -27,35 +35,58 @@ class TaskForm
     def owner_pic
       Pic.new(user_id: current_user.id, owner: true)
     end
+
+    def owner_pic?(pic)
+      pic.user_id == task.pic_owner.user_id unless task.pic_owner.nil?
+    end
   end
 
   concerning :TagsBuilder do
     attr_reader :taggings_attributes
 
     def taggings
-      @taggings_attributes ||= Tagging.new
+      @taggings_attributes ||= Task.new
     end
     
     def taggings_attributes=(attributes)
-      @taggings_attributes = []
-      attributes["tag_id"].each do |id|
-        @taggings_attributes << Tagging.new(tag_id: id)
+      if task_attributes.nil?
+        return if attributes.empty?
+        @taggings_attributes = []
+
+        attributes["tag_ids"].each do |id|
+          @taggings_attributes << Tagging.new(tag_id: id)
+        end
+      else
+        @taggings_attributes = attributes
       end
     end
   end
 
   class << self
-    task
+    def find(id)
+      task_attributes = Task.find(id)
+      @task_form = TaskForm.new(
+        name: task_attributes.name,
+        deadline: task_attributes.deadline,
+        content: task_attributes.content,
+        priority: task_attributes.priority,
+        task_attributes: task_attributes,
+        pic_attributes: task_attributes,
+        taggings_attributes: task_attributes
+      )
+    end
   end
 
+  def persisted?
+    task_attributes.nil? ? false : true
   end
   
   def save
     return false if invalid?
 
     task.assign_attributes(task_params)
-    build_asscociations_with_tagging
-    build_asscociations_with_pic
+    build_associations_with_tagging
+    build_associations_with_pic
     
     if task.save
       true
@@ -64,8 +95,18 @@ class TaskForm
     end
   end
 
-  def find(id)
+  def update(id)
+    return false if invalid?
 
+    base_task(id)
+    update_associations_with_tagging
+    update_associations_with_pic
+   
+    if task.update_attributes(task_params)
+      true
+    else
+      false
+    end
   end
 
   private
@@ -78,13 +119,25 @@ class TaskForm
     }
   end
 
-  def build_asscociations_with_tagging
+  def build_associations_with_tagging
     task.taggings << taggings
   end
 
-  def build_asscociations_with_pic
+  def build_associations_with_pic
     # Check whether pic user is themselves
     task.pics << pic unless pic.user_id == current_user.id
     task.pics << owner_pic
+  end
+
+  def update_associations_with_tagging
+    task.taggings.destroy_all
+    task.taggings << @taggings_attributes unless @taggings_attributes.nil?
+  end
+
+  def update_associations_with_pic
+    task.pics.each do |pic|
+      pic.destroy unless pic.owner
+    end
+    task.pics << pic unless owner_pic?(pic)
   end
 end

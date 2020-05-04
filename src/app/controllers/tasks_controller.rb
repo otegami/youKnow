@@ -1,9 +1,9 @@
 class TasksController < ApplicationController
   before_action :logged_in_user
-  before_action :manage_tasks, only: [:show, :edit]
+  before_action :manage_tasks, only: [:show, :edit, :update]
   before_action :correct_pic, only: :edit
   before_action :correct_member, only: [:show, :new, :create, :edit]
-  before_action :check_project, only: [:new, :create]
+  before_action :check_project, only: [:new, :create, :edit, :update]
 
   def show
   end
@@ -29,7 +29,24 @@ class TasksController < ApplicationController
 
   def edit
     @task_form = TaskForm.find(params[:id])
+    @members = @project.members
+    @tags = @project.tags
   end
+
+  def update
+    @task_form = TaskForm.new(task_form_params)
+    if @task_form.update(params[:id])
+      redirect_to project_task_path(@task)
+    else
+      @members = @project.members
+      @tags = @project.tags
+      render 'edit'
+    end
+  end
+
+  # def persisted?
+  #   task_attributes.nil? ? false : true
+  # end
 
   private
   def task_form_params
@@ -43,7 +60,7 @@ class TasksController < ApplicationController
         :user_id
       ],
       taggings_attributes: [
-        :tag_id => []
+        :tag_ids => []
       ]
     )
   end
@@ -54,7 +71,7 @@ class TasksController < ApplicationController
   end
 
   def check_project
-    @project = Project.find(params[:project_id])
+    @project = Project.find(params[:project_id] || @task.project_id)
   end
 
   def manage_tasks
