@@ -36,9 +36,8 @@ class TasksController < ApplicationController
   def update
     @task_form = TaskForm.new(task_form_params)
     if @task_form.update(params[:id])
-      redirect_to projec_path(@project)
+      redirect_to project_task_path(@task)
     else
-      @task_form = TaskForm.find(params[:id])
       @members = @project.members
       @tags = @project.tags
       render 'edit'

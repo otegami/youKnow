@@ -50,16 +50,14 @@ class TaskForm
     
     def taggings_attributes=(attributes)
       if task_attributes.nil?
+        return if attributes.empty?
         @taggings_attributes = []
+
         attributes["tag_ids"].each do |id|
           @taggings_attributes << Tagging.new(tag_id: id)
         end
       else
         @taggings_attributes = attributes
-        # @taggings_attributes = []
-        # attributes.taggings.each do |tagging|
-        #   @taggings_attributes << tagging
-        # end
       end
     end
   end

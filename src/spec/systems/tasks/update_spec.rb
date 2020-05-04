@@ -11,7 +11,7 @@ RSpec.describe "Edit Task In The Project", type: :system do
         @task = @project.tasks.first
       end
       it "shouldn't edit a task with invalid attributes" do
-        project_task_path(@task)
+        visit project_task_path(@task)
         click_link "edit_#{@task.id}"
 
         # expect(page).to have_text task.status
@@ -37,11 +37,11 @@ RSpec.describe "Edit Task In The Project", type: :system do
         expect(page).to have_text 'Content can\'t be blank'
       end
       it "should edit a task with valid attributes" do
-        project_task_path(@task)
+        visit project_task_path(@task)
         click_link "edit_#{@task.id}"
 
         fill_in 'Name', with: "ChangedName"
-        fill_in 'Deadline', with: "2020-10-10"
+        fill_in 'Deadline', with: "10/10/2020"
         fill_in 'Content', with: "ChangedContent"
         @project.tags.each do |tag|
           check tag.name
