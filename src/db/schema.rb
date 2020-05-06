@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2020_04_21_062757) do
     t.datetime "deadline"
     t.text "content"
     t.integer "priority"
+    t.integer "status", default: 0
     t.integer "sort"
     t.integer "project_id"
     t.datetime "created_at", null: false

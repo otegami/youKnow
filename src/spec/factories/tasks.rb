@@ -4,6 +4,7 @@ FactoryBot.define do
     deadline { rand(10).minutes.ago }
     sequence(:content) { |n| "TEST_CONTENT#{n}" }
     priority { rand(0..2) }
+    status { 0 }
     project
 
     after(:create) do |task|

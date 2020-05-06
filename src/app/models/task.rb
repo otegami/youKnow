@@ -10,6 +10,7 @@ class Task < ApplicationRecord
   validates :deadline, presence: true
   validates :content, presence: true, length: { maximum: 500 }
   validates :priority, presence: true, numericality: { less_than_or_equal_to: 2 }
+  validates :status, numericality: { less_than_or_equal_to: 2 }
 
   def pic_user
     pic = self.pics.find_by(owner: false) || self.pics.find_by(owner: true)
