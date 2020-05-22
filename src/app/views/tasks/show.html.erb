@@ -2,6 +2,21 @@
   <div class="row">
     <div class="">
       <p>Status</p>
+      <% unless status_done?(@task) %>
+        <%= 
+        link_to button_status(@task),
+        project_status_index_path(@task.project,
+          params: {
+            task: {
+              status: 1,
+              task_id: @task.id
+            },
+          }
+        ),
+        class: "btn btn-info",
+        method: :post
+      %>
+      <% end %>
     </div>
     <% if pic_user?(@task) %>
       <div class="">

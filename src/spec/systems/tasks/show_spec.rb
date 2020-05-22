@@ -21,7 +21,7 @@ RSpec.describe "Detail Task Page", type: :system do
           expect(page).not_to have_link "edit_#{task.id}"
           expect(page).not_to have_link "close_#{task.id}"
           expect(page).to have_text task.name
-          expect(page).to have_text task.deadline
+          expect(page).to have_text task.deadline.strftime("%Y-%m-%d")
           expect(page).to have_text task.content
           # expect(page).to have_text task.files
           task.tags.each do |tag|
@@ -46,7 +46,7 @@ RSpec.describe "Detail Task Page", type: :system do
           expect(page).to have_link "close_#{task.id}"
           expect(page).to have_text task.name
           expect(page).to have_text pic_user(task).name
-          expect(page).to have_text task.deadline
+          expect(page).to have_text task.deadline.strftime("%Y-%m-%d")
           expect(page).to have_text task.content
           # expect(page).to have_text task.files
           task.tags.each do |tag|
