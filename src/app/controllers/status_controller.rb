@@ -8,10 +8,10 @@ class StatusController < ApplicationController
     task_status = TaskStatus.new(status_params)
     if task_status.update
       flash[:success] = "Update Task Status"
-      project_task_path(@task)
+      redirect_to project_task_path(@task)
     else
       flash[:danger] = "Failed To Update Task Status"
-      project_task_path(@task)
+      redirect_to project_task_path(@task)
     end
   end
 
